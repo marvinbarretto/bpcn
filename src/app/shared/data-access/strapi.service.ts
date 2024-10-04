@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../environment';
+import { User } from '../../users/utils/user.model';
+import { IEvent, IEventsRequest, IEventsResponse } from '../../events/utils/event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,24 +13,33 @@ export class StrapiService {
   private baseUrl = environment.strapiUrl;
 
   // TODO: Replace with interceptor?
-  private getHeaders(): HttpHeaders {
+  protected getGetHeaders(): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${environment.strapiToken}`
     })
   }
 
+  protected getPostHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      Authorization: `Bearer ${environment.strapiToken}`,
+      'Content-Type': 'application/json'
+    })
+  }
+
   get<T>(endpoint: string): Observable<T> {
-    const headers = this.getHeaders();
+    const headers = this.getGetHeaders();
     return this.http.get<T>(`${this.baseUrl}/${endpoint}`, { headers })
       .pipe(catchError(this.handleError));
   }
 
-  getUsers(): Observable<any> {
-    return this.get('users');
+  post<T>(endpoint: string, body: any): Observable<T> {
+    const headers = this.getPostHeaders();
+    return this.http.post<T>(`${this.baseUrl}/${endpoint}`, body, { headers })
+      .pipe(catchError(this.handleError));
   }
 
-  private handleError(error: any): Observable<never> {
+  protected handleError(error: any): Observable<never> {
     console.error('StrapiService error:', error);
-    throw error;
+    return throwError(() => new Error('StrapiService error'));
   }
 }

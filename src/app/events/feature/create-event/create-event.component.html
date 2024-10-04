@@ -1,0 +1,24 @@
+<h1>Create New Event</h1>
+
+<form (ngSubmit)="onSubmit()" #eventForm="ngForm">
+  <label for="title">Title:</label>
+  <input id="title" name="title" [(ngModel)]="newEvent.title" required />
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description" [(ngModel)]="newEvent.description"></textarea>
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" name="date" [(ngModel)]="newEvent.date" required />
+
+  <label for="location">Location:</label>
+  <input id="location" name="location" [(ngModel)]="newEvent.location" required />
+
+  <label for="state">State:</label>
+  <input id="state" name="state" [(ngModel)]="newEvent.state" required />
+
+  <button type="submit" [disabled]="eventForm.invalid">Create Event</button>
+</form>
+
+<div *ngIf="message" class="success-message">
+  {{ message }}
+</div>
