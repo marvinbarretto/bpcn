@@ -3,7 +3,7 @@ import { User } from "../../users/utils/user.model";
 import { AuthService } from "./auth.service";
 import { of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { AuthResponse } from "../utils/auth.model";
+import { AuthResponse, RegisterPayload } from "../utils/auth.model";
 
 
 @Injectable({
@@ -43,6 +43,28 @@ export class AuthStore {
     );
   }
 
+  logout() {
+    // Clear local storage
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+
+    // Clear state
+    this.token$$.set(null);
+    this.user$$.set(null);
+  }
+
+  register(payload: RegisterPayload) {
+    this.loading$$.set(true);
+
+    return this.authService.register(payload).pipe(
+      tap((response: AuthResponse) => this.handleLoginSuccess(response)),
+      catchError((error: any) => {
+        this.handleLoginError(error);
+        return of(null);
+      })
+    );
+  }
+
   // Extracted side-effect function
   private handleLoginSuccess(response: AuthResponse) {
     // Update state
@@ -65,5 +87,13 @@ export class AuthStore {
     console.error('error', error);
     this.error$$.set('Login failed');
     this.loading$$.set(false);
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.token$$();
+  }
+
+  hasRole(role: string): boolean {
+    return this.user$$()?.role === role;
   }
 }

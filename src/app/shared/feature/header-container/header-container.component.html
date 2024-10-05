@@ -1,1 +1,11 @@
-<app-header [username]="username" [isLoggedIn]="isLoggedIn"></app-header>
+<!-- <app-header [username]="username" [isLoggedIn]="isLoggedIn"></app-header> -->
+
+<nav>
+  <!-- Display the username if the user is logged in -->
+  <span *ngIf="isLoggedIn">Welcome, {{ username }}!</span>
+
+  <!-- Show logout button if logged in, otherwise show login link -->
+  <button *ngIf="isLoggedIn" (click)="authStore.logout()">Logout</button>
+  <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
+</nav>
+

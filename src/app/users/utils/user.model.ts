@@ -10,4 +10,5 @@ export interface User {
   updatedAt: string
   publishedAt: string
   locale: any
+  role?: any // TODO: Type this up
 }
