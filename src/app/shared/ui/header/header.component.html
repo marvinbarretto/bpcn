@@ -1,0 +1,10 @@
+<nav>
+  <div *ngIf="isLoggedIn; else notLoggedIn">
+    <span>Welcome, {{ username }}!</span>
+    <!-- <button (click)="onLogout()">Logout</button> -->
+  </div>
+
+  <ng-template #notLoggedIn>
+    <span>Please log in</span>
+  </ng-template>
+</nav>
