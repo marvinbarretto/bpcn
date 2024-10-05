@@ -1,9 +1,10 @@
 import { Injectable, signal } from "@angular/core";
 import { User } from "../../users/utils/user.model";
 import { AuthService } from "./auth.service";
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthResponse, RegisterPayload } from "../utils/auth.model";
+import { Router } from "@angular/router";
 
 
 @Injectable({
@@ -16,7 +17,10 @@ export class AuthStore {
   loading$$ = signal<boolean>(false);
   error$$ = signal<string | null>(null);
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loadUserFromStorage();
   }
 
@@ -33,6 +37,7 @@ export class AuthStore {
 
   login(identifier: string, password: string) {
     this.loading$$.set(true);
+    this.error$$.set(null);
 
     return this.authService.login({ identifier, password }).pipe(
       tap((response: AuthResponse) => this.handleLoginSuccess(response)),
@@ -40,7 +45,7 @@ export class AuthStore {
         this.handleLoginError(error);
         return of(null);
       })
-    );
+    ).subscribe();
   }
 
   logout() {
@@ -55,6 +60,7 @@ export class AuthStore {
 
   register(payload: RegisterPayload) {
     this.loading$$.set(true);
+    this.error$$.set(null);
 
     return this.authService.register(payload).pipe(
       tap((response: AuthResponse) => this.handleLoginSuccess(response)),
@@ -62,7 +68,7 @@ export class AuthStore {
         this.handleLoginError(error);
         return of(null);
       })
-    );
+    ).subscribe();
   }
 
   // Extracted side-effect function
@@ -76,6 +82,8 @@ export class AuthStore {
     // Persist to local storage
     localStorage.setItem('authToken', response.jwt);
     localStorage.setItem('user', JSON.stringify(response.user));
+
+    this.router.navigate(['/']);
 
     // Housekeeping
     this.loading$$.set(false);

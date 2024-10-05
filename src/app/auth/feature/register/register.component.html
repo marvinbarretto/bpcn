@@ -1,19 +1,23 @@
-<!-- <form (ngSubmit)="onRegister()">
-  <label for="username">Username:</label>
-  <input id="username" [(ngModel)]="username" name="username" required />
-
-  <label for="email">Email:</label>
-  <input id="email" [(ngModel)]="email" name="email" type="email" required />
-
-  <label for="password">Password:</label>
-  <input id="password" [(ngModel)]="password" name="password" type="password" required />
-
-  <label for="confirmPassword">Confirm Password:</label>
-  <input id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" type="password" required />
-
-  <div *ngIf="error" class="error-message">
-    {{ error }}
+<h2>Register</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+  <div>
+    <label for="username">Username</label>
+    <input id="username" formControlName="username" />
   </div>
 
-  <button type="submit">Register</button>
-</form> -->
+  <div>
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" />
+  </div>
+
+  <div>
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" />
+  </div>
+
+  <button type="submit" [disabled]="registerForm.invalid || authStore.loading$$()">
+    Register
+  </button>
+
+  <div *ngIf="authStore.error$$()">{{ authStore.error$$() }}</div>
+</form>

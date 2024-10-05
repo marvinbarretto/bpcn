@@ -17,16 +17,8 @@ export class LoginComponent {
   password = 'test0209';
 
   onLogin() {
-    // Subscribe to the login() observable
-    this.authStore.login(this.identifier, this.password).subscribe(
-      response => {
-        // Optionally handle anything after login
-        console.log('Login successful');
-      },
-      error => {
-        console.error('Login error', error);
-      }
-    );
+    if (this.identifier && this.password) {
+      this.authStore.login(this.identifier, this.password);
+    }
   }
-
 }
