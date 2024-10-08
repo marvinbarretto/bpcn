@@ -5,11 +5,17 @@
   text-align: center;
 }
 
+.header__title {
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
 nav {
-  background-color: #666;
+  background-color: darkgreen;
+  color: white;
   display: flex;
+  padding: 1rem;
   justify-content: space-between;
-  margin-top: 1rem;
 }
 
 a {

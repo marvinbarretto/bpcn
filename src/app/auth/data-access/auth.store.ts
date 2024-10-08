@@ -5,6 +5,8 @@ import { of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthResponse, RegisterPayload } from "../utils/auth.model";
 import { Router } from "@angular/router";
+import { UserService } from "../../users/data-access/user.service";
+import { Roles } from "../utils/roles.enum";
 
 
 @Injectable({
@@ -19,6 +21,7 @@ export class AuthStore {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private router: Router
   ) {
     this.loadUserFromStorage();
@@ -57,6 +60,8 @@ export class AuthStore {
     // Clear state
     this.token$$.set(null);
     this.user$$.set(null);
+
+    this.router.navigate(['/']);
   }
 
   register(payload: RegisterPayload) {
@@ -73,30 +78,30 @@ export class AuthStore {
     ).subscribe();
   }
 
-  // Extracted side-effect function
   private handleLoginSuccess(response: AuthResponse) {
-    // Update state
-    this.user$$.set(response.user);
     this.token$$.set(response.jwt);
-
-    console.log('response', response);
-
-    // Persist to local storage
     localStorage.setItem('authToken', response.jwt);
-    localStorage.setItem('user', JSON.stringify(response.user));
 
-    this.router.navigate(['/']);
+    // NOTE: Unfortunately we dont get enough information about the user in the response so we have to make a call to the userService to get the user with role
+    this.userService.getUserDetails().subscribe((user: User) => {
+      this.user$$.set(user);
+      localStorage.setItem('user', JSON.stringify(user));
 
-    // Housekeeping
-    this.loading$$.set(false);
-    this.error$$.set(null);
+      this.loading$$.set(false);
+      this.error$$.set(null);
+
+      this.router.navigate(['/']);
+    }, (error: any) => {
+      this.error$$.set(`Login failed ${error}`);
+      this.loading$$.set(false);
+    });
   }
 
   isAuthenticated(): boolean {
     return !!this.token$$();
   }
 
-  hasRole(role: string): boolean {
-    return this.user$$()?.role === role;
+  hasRole(role: Roles): boolean {
+    return this.user$$()?.role.name === role;
   }
 }

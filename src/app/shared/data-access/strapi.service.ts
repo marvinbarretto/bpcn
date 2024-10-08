@@ -1,9 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError,  Observable, throwError } from 'rxjs';
 import { environment } from '../../environment';
-import { User } from '../../users/utils/user.model';
-import { IEvent, IEventsRequest, IEventsResponse } from '../../events/utils/event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +10,23 @@ export class StrapiService {
   private http = inject(HttpClient);
   private baseUrl = environment.strapiUrl;
 
+  private getAuthToken() {
+    return localStorage.getItem('authToken');
+  }
+
   // TODO: Replace with interceptor, make use of HttpClient
   protected getGetHeaders(): HttpHeaders {
+    const token = this.getAuthToken() || environment.strapiToken;
+    console.log('getheaders token', token);
     return new HttpHeaders({
-      Authorization: `Bearer ${environment.strapiToken}`
+      Authorization: `Bearer ${token}`
     })
   }
 
   protected getPostHeaders(): HttpHeaders {
+    const token = this.getAuthToken() || environment.strapiToken;
     return new HttpHeaders({
-      Authorization: `Bearer ${environment.strapiToken}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     })
   }

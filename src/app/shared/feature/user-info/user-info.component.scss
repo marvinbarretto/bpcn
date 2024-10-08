@@ -5,4 +5,24 @@
   background-color: #CCC;
   padding: .5rem;
   font-size: .75rem;
+  gap: .5rem;
+}
+
+a {
+  padding: 3px;
+}
+
+a:hover {
+  background-color: white;
+}
+
+button {
+  border: solid 1px black;
+  padding: 3px;
+}
+
+.role {
+  padding: 3px;
+  margin-left: 5px;
+  background-color: antiquewhite;
 }

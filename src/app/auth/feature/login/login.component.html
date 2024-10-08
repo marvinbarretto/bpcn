@@ -1,16 +1,18 @@
-<h2>Login</h2>
-<form (ngSubmit)="onLogin()">
-  <label for="identifier">Identifier</label>
-  <input id="identifier" [(ngModel)]="identifier" name="identifier" required />
-  <br>
+<div class="login">
+  <h1>Login</h1>
+  <form (ngSubmit)="onLogin()">
+    <label for="identifier">Identifier</label>
+    <input id="identifier" [(ngModel)]="identifier" name="identifier" required />
+    <br>
 
-  <label for="password">Password</label>
-  <input id="password" [(ngModel)]="password" name="password" type="password" required />
-  <br>
+    <label for="password">Password</label>
+    <input id="password" [(ngModel)]="password" name="password" type="password" required />
+    <br>
 
-  <div *ngIf="authStore.loading$$()">Loading...</div>  <!-- Reactive loading indicator -->
+    <div *ngIf="authStore.loading$$()">Loading...</div>  <!-- Reactive loading indicator -->
 
-  <div *ngIf="authStore.error$$()">{{ authStore.error$$() }}</div>  <!-- Error handling -->
+    <div *ngIf="authStore.error$$()">{{ authStore.error$$() }}</div>  <!-- Error handling -->
 
-  <button type="submit" [disabled]="authStore.loading$$()">Login</button>  <!-- Disable when loading -->
-</form>
+    <button type="submit" [disabled]="authStore.loading$$()">Login</button>  <!-- Disable when loading -->
+  </form>
+</div>

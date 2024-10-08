@@ -9,6 +9,10 @@ import { User } from '../utils/user.model';
 export class UserService extends StrapiService {
 
   getUsers(): Observable<User[]> {
-    return this.get<User[]>('users');
+    return this.get<User[]>('users?populate=role');
+  }
+
+  getUserDetails(): any {
+    return this.get<User>('users/me?populate=role');
   }
 }
