@@ -1,0 +1,11 @@
+<h2>Events</h2>
+<div *ngIf="eventStore.loading$$()">Loading events...</div>
+<div *ngIf="eventStore.error$$()">{{ eventStore.error$$() }}</div>
+
+<ul *ngIf="eventStore.events$$().length">
+  <li *ngFor="let event of eventStore.events$$()">
+    <h3>{{ event.title }}</h3>
+    <p>{{ event.description }}</p>
+    <small>{{ event.date }}</small>
+  </li>
+</ul>

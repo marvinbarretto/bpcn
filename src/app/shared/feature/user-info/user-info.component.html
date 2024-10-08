@@ -1,0 +1,9 @@
+<div class="user-info">
+  @if (isLoggedIn) {
+    <span>Welcome, {{ username }}!</span>
+    <button (click)="authStore.logout()">Logout</button>
+  } @else {
+    <a routerLink="/login">Login</a><br>
+    <a routerLink="/register">Register</a>
+  }
+</div>
