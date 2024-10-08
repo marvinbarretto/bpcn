@@ -1,7 +1,7 @@
 import { Injectable, signal } from "@angular/core";
 import { User } from "../../users/utils/user.model";
 import { AuthService } from "./auth.service";
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthResponse, RegisterPayload } from "../utils/auth.model";
 import { Router } from "@angular/router";
@@ -42,7 +42,8 @@ export class AuthStore {
     return this.authService.login({ identifier, password }).pipe(
       tap((response: AuthResponse) => this.handleLoginSuccess(response)),
       catchError((error: any) => {
-        this.handleLoginError(error);
+        this.error$$.set(`Login failed ${error}`);
+        this.loading$$.set(false);
         return of(null);
       })
     ).subscribe();
@@ -65,7 +66,8 @@ export class AuthStore {
     return this.authService.register(payload).pipe(
       tap((response: AuthResponse) => this.handleLoginSuccess(response)),
       catchError((error: any) => {
-        this.handleLoginError(error);
+        this.error$$.set(`Login failed ${error}`);
+        this.loading$$.set(false);
         return of(null);
       })
     ).subscribe();
@@ -88,13 +90,6 @@ export class AuthStore {
     // Housekeeping
     this.loading$$.set(false);
     this.error$$.set(null);
-  }
-
-  // Handle error side-effect function
-  private handleLoginError(error: any) {
-    console.error('error', error);
-    this.error$$.set('Login failed');
-    this.loading$$.set(false);
   }
 
   isAuthenticated(): boolean {

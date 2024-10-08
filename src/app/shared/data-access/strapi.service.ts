@@ -12,7 +12,7 @@ export class StrapiService {
   private http = inject(HttpClient);
   private baseUrl = environment.strapiUrl;
 
-  // TODO: Replace with interceptor?
+  // TODO: Replace with interceptor, make use of HttpClient
   protected getGetHeaders(): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${environment.strapiToken}`

@@ -7,7 +7,7 @@ export const EVENTS_ROUTES: Routes = [
   },
   {
     path: '',
-    loadComponent: () => import('./feature/dashboard/dashboard.component').then(m => m.DashboardComponent)
+    loadComponent: () => import('./feature/event-list/event-list.component').then(m => m.EventListComponent)
   },
   {
     path: '**',
