@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../users/data-access/user.service';
+import { SiteMapComponent } from '../../../pages/feature/site-map/site-map.component';
 
 export interface User {
   id: number;
@@ -21,7 +22,7 @@ export interface User {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [SiteMapComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

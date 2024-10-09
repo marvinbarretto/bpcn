@@ -1,0 +1,28 @@
+<h2>Site Map</h2>
+
+<!-- TODO: Handle loading state nicely -->
+<ul *ngIf="pages && pages.data">
+
+  <ng-container *ngFor="let page of pages.data">
+    <li *ngIf="!page.parentPage">
+      <a [routerLink]="page.slug">{{ page.title }}</a>
+
+      <ul *ngIf="hasChildren(page.id)">
+        <ng-container *ngFor="let child of getChildPages(page.id)">
+          <li>
+            <a [routerLink]="child.slug">{{ child.title }}</a>
+
+            <ul *ngIf="hasChildren(child.id)">
+              <ng-container *ngFor="let grandChild of getChildPages(child.id)">
+                <li>
+                  <a [routerLink]="grandChild.slug">{{ grandChild.title }}</a>
+                </li>
+              </ng-container>
+            </ul>
+
+          </li>
+        </ng-container>
+      </ul>
+    </li>
+  </ng-container>
+</ul>
