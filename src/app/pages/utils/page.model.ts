@@ -4,6 +4,7 @@ export interface Page {
   slug: string;
   content: any[];
   parentPage?: Page;  // The parent page (optional)
+  primaryNavigation?: boolean;
 }
 
 export interface PageResponse {

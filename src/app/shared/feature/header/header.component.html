@@ -8,5 +8,12 @@
 <nav>
   <a routerLink="/events">Events</a>
   <a routerLink="/site-map">Site map</a>
-  <!-- TODO: selected -->
+
+  @if (pageStore.primaryNavPages$$().length) {
+    <ng-container *ngFor="let page of pageStore.primaryNavPages$$()">
+      <a [routerLink]="page.slug">{{ page.title }}</a>
+    </ng-container>
+  }
+
+  <!-- TODO: Handle selected -->
 </nav>

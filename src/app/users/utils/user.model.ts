@@ -10,5 +10,11 @@ export interface User {
   updatedAt: string
   publishedAt: string
   locale: any
-  role?: any // TODO: Type this up, roles should be defined
+  role: {
+    id: number;
+    name: string;
+    description: string;
+    type: string;
+  };
+  // TODO: Type this up, roles should be defined
 }

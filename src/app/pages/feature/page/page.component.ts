@@ -1,44 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { PageService } from '../../data-access/page.service';
-import { Router } from 'express';
 import { ActivatedRoute } from '@angular/router';
+import { PageStore } from '../../data-access/page.store';
+import { CommonModule, JsonPipe } from '@angular/common';
+import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-page',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, JsonPipe],
   templateUrl: './page.component.html',
   styleUrl: './page.component.scss'
 })
 export class PageComponent {
-  page: any;
-  error: string = '';
-  loading: any;
+  page = {} as any;
 
   constructor(
     private route: ActivatedRoute,
+    public pageStore: PageStore,
     private pageService: PageService
   ) {}
 
   ngOnInit() {
-    const slug = this.route.snapshot.paramMap.get('slug');
-
-    console.log('slug', slug);
-
-    if (slug) {
-      this.loadPage(slug);
-    } else {
-      this.error = 'Page not found';
-    }
-  }
-
-  loadPage(slug: string) {
-    this.pageService.getPageBySlug(slug).subscribe({
-      next: (page) => {
-        this.page = page;
-      },
-      error: (error) => {
-        this.error = error;
+    this.route.paramMap.subscribe(params => {
+      const slug = params.get('slug');
+      if (slug) {
+        this.pageService.getPageBySlug(slug).pipe(
+          tap( page => {
+            console.log('Page:', page);
+          }),
+        ).subscribe(page => {
+          console.log('!', page);
+          this.page = (page as any).data[0];
+        });
       }
     });
   }

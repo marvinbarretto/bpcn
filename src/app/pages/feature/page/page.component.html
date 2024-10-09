@@ -1,1 +1,54 @@
-<p>page works!</p>
+
+<!-- TODO: Type up the JSON response -->
+ <!-- TODO: USe signals and document this -->
+  <!-- Consider best practice with how to handle wysisqyg -->
+
+<pre>
+  {{ page | json }}
+</pre>
+
+@if (page) {
+  <h1>{{ page.title }}</h1>
+
+  @if (page.content) {
+    <ng-container *ngFor="let block of page.content">
+
+      <p *ngIf="block.type === 'paragraph'">
+        <span *ngFor="let child of block.children">
+
+          <span *ngIf="!child.bold && !child.italic && !child.strikethrough">{{ child.text }}</span>
+          <b *ngIf="child.bold">{{ child.text }}</b>
+          <i *ngIf="child.italic">{{ child.text }}</i>
+          <s *ngIf="child.strikethrough">{{ child.text }}</s>
+
+        </span>
+      </p>
+
+      <h1 *ngIf="block.type === 'heading' && block.level === 1">
+        <span *ngFor="let child of block.children">{{ child.text }}</span>
+      </h1>
+      <h2 *ngIf="block.type === 'heading' && block.level === 2">
+        <span *ngFor="let child of block.children">{{ child.text }}</span>
+      </h2>
+      <h3 *ngIf="block.type === 'heading' && block.level === 3">
+        <span *ngFor="let child of block.children">{{ child.text }}</span>
+      </h3>
+
+      <!-- Render an unordered list -->
+      <ul *ngIf="block.type === 'list' && block.format === 'unordered'">
+        <li *ngFor="let listItem of block.children">
+          <span *ngFor="let child of listItem.children">{{ child.text }}</span>
+        </li>
+      </ul>
+
+        <!-- Render an ordered list -->
+      <ol *ngIf="block.type === 'list' && block.format === 'ordered'">
+        <li *ngFor="let listItem of block.children">
+          <span *ngFor="let child of listItem.children">{{ child.text }}</span>
+        </li>
+      </ol>
+    </ng-container>
+  }
+
+
+}

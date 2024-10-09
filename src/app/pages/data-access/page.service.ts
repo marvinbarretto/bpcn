@@ -9,7 +9,7 @@ import { PageResponse } from '../utils/page.model';
 export class PageService extends StrapiService {
 
   getPageBySlug(slug: string) {
-    return this.get(`pages?slug=${slug}`);
+    return this.get(`pages?filters[slug][$eq]=${slug}`);
   }
 
   getPages() {
