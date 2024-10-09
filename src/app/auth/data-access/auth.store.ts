@@ -32,7 +32,6 @@ export class AuthStore {
     const user = localStorage.getItem('user');
 
     if (token && user) {
-      console.log('loadUserFromStorage', user);
       this.token$$.set(token);
       this.user$$.set(JSON.parse(user));
     }

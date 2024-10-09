@@ -17,7 +17,6 @@ export class StrapiService {
   // TODO: Replace with interceptor, make use of HttpClient
   protected getGetHeaders(): HttpHeaders {
     const token = this.getAuthToken() || environment.strapiToken;
-    console.log('getheaders token', token);
     return new HttpHeaders({
       Authorization: `Bearer ${token}`
     })

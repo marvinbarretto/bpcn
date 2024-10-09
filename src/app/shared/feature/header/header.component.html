@@ -5,15 +5,13 @@
     Black Prostate Cancer Network
   </a>
 </div>
+
 <nav>
-  <a routerLink="/events">Events</a>
-  <a routerLink="/site-map">Site map</a>
-
-  @if (pageStore.primaryNavPages$$().length) {
-    <ng-container *ngFor="let page of pageStore.primaryNavPages$$()">
-      <a [routerLink]="page.slug">{{ page.title }}</a>
-    </ng-container>
-  }
-
-  <!-- TODO: Handle selected -->
+  <ul>
+    <li *ngFor="let link of pageStore.primaryNavLinksComputed$$()">
+      <a [routerLink]="['/', link.slug]">{{ link.title }}</a>
+    </li>
+    <li><a routerLink="/events">Events</a></li>
+    <li><a routerLink="/site-map">Site map</a></li>
+  </ul>
 </nav>

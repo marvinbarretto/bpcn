@@ -13,7 +13,7 @@ import { tap } from 'rxjs';
   styleUrl: './page.component.scss'
 })
 export class PageComponent {
-  page = {} as any;
+  page: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,19 +21,29 @@ export class PageComponent {
     private pageService: PageService
   ) {}
 
+  // ngOnInit() {
+  //   // Subscribe to the resolved page data
+  //   this.route.data.subscribe(data => {
+  //     if (data['page']) {
+  //       console.log('PageComponent: Resolved Page:', data['page']);
+  //       this.page = data['page'];
+
+  //       this.pageStore.loadPage(this.page.page.slug);
+  //     } else {
+  //       console.error('PageComponent: No page resolved');
+  //     }
+  //   });
+  // }
+
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const slug = params.get('slug');
-      if (slug) {
-        // this.pageService.getPageBySlug(slug).pipe(
-        //   tap( page => {
-        //     console.log('Page:', page);
-        //   }),
-        // ).subscribe(page => {
-        //   console.log('!', page);
-        //   this.page = page;
-        // });
-        this.pageStore.loadPage(slug);
+    // Subscribe to the resolved page data
+    this.route.data.subscribe(data => {
+      if (data['page']) {
+        console.log('PageComponent: Resolved Page:', data['page']);
+        // Instead of calling loadPage(), we directly set the page$$ signal
+        this.pageStore.page$$.set(data['page'].page); // Assuming the resolved data contains page object
+      } else {
+        console.error('PageComponent: No page resolved');
       }
     });
   }

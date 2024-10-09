@@ -11,11 +11,18 @@
 }
 
 nav {
-  background-color: darkgreen;
+  background-color: #444;
   color: white;
   display: flex;
   padding: 1rem;
   gap: .75rem;
+}
+
+ul {
+  @media (min-width: 500px) {
+    display: flex;
+    gap: 1rem;
+  }
 }
 
 a {

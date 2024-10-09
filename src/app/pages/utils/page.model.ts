@@ -9,12 +9,17 @@ export interface Page {
 
 export interface PageResponse {
   data: Page[];
-  meta: {
-    pagination: {
-      page: number;
-      pageSize: number;
-      pageCount: number;
-      total: number;
-    };
-  };
+  meta: any;
+}
+
+export interface PrimaryNavLink {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+}
+
+export interface PrimaryNavLinkResponse {
+  data: PrimaryNavLink[];
+  meta: any;
 }

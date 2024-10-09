@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit {
   constructor(public pageStore: PageStore) {}
 
   ngOnInit() {
-    this.pageStore.loadPages();
+    this.pageStore.loadPrimaryNavLinks();
   }
-
 }
