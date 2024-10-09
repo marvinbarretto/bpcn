@@ -3,7 +3,7 @@ export interface Page {
   title: string;
   slug: string;
   content: any[];
-  parentPage?: Page;  // The parent page (optional)
+  parentPage?: Page;
   primaryNavigation?: boolean;
 }
 

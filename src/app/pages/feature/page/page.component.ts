@@ -1,9 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { PageService } from '../../data-access/page.service';
 import { ActivatedRoute } from '@angular/router';
 import { PageStore } from '../../data-access/page.store';
 import { CommonModule, JsonPipe } from '@angular/common';
-import { map, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-page',
@@ -25,14 +25,15 @@ export class PageComponent {
     this.route.paramMap.subscribe(params => {
       const slug = params.get('slug');
       if (slug) {
-        this.pageService.getPageBySlug(slug).pipe(
-          tap( page => {
-            console.log('Page:', page);
-          }),
-        ).subscribe(page => {
-          console.log('!', page);
-          this.page = (page as any).data[0];
-        });
+        // this.pageService.getPageBySlug(slug).pipe(
+        //   tap( page => {
+        //     console.log('Page:', page);
+        //   }),
+        // ).subscribe(page => {
+        //   console.log('!', page);
+        //   this.page = page;
+        // });
+        this.pageStore.loadPage(slug);
       }
     });
   }

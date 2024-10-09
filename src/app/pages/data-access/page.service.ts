@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { StrapiService } from '../../shared/data-access/strapi.service';
-import { PageResponse } from '../utils/page.model';
+import { Page, PageResponse } from '../utils/page.model';
+import { catchError, map, Observable } from 'rxjs';
+import { response } from 'express';
 
 
 @Injectable({
@@ -8,12 +10,19 @@ import { PageResponse } from '../utils/page.model';
 })
 export class PageService extends StrapiService {
 
-  getPageBySlug(slug: string) {
-    return this.get(`pages?filters[slug][$eq]=${slug}`);
+  // https://docs.strapi.io/dev-docs/api/rest/filters-locale-publication#filtering
+  getPageBySlug(slug: string): Observable<Page> {
+    return this.get<PageResponse>(`pages?filters[slug][$eq]=${slug}`).pipe(
+      map(response => response.data[0]),
+      catchError(this.handleError)
+    );
   }
 
-  getPages() {
-    return this.get<PageResponse>('pages?populate[parentPage]=*');
+  getPages(): Observable<Page[]> {
+    return this.get<PageResponse>('pages?populate[parentPage]=*').pipe(
+      map(response => response.data),
+      catchError(this.handleError)
+    );
   }
 
   // NOTE: Use this syntax later for specific queries
