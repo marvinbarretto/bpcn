@@ -15,9 +15,14 @@ nav {
   color: white;
   display: flex;
   padding: 1rem;
-  justify-content: space-between;
+  gap: .75rem;
 }
 
 a {
   text-decoration: underline;
+}
+
+a:hover {
+  background-color: white;
+  color: #333;
 }

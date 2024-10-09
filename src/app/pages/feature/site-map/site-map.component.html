@@ -1,25 +1,29 @@
-<h2>Site Map</h2>
+<h1>Site Map</h1>
 
-<!-- TODO: Handle loading state nicely -->
-<ul *ngIf="pages && pages.data">
+@if ( pageStore.loading$$() ) {
+  <div>Loading...</div>
+}
 
-  <ng-container *ngFor="let page of pages.data">
-    <li *ngIf="!page.parentPage">
-      <a [routerLink]="page.slug">{{ page.title }}</a>
+@if ( pageStore.error$$() ) {
+  <div>{{ pageStore.error$$() }}</div>
+}
 
-      <ul *ngIf="hasChildren(page.id)">
-        <ng-container *ngFor="let child of getChildPages(page.id)">
+<ul *ngIf="!pageStore.loading$$() && !pageStore.error$$()">
+  <ng-container *ngFor="let page of pageStore.getRootPages()">
+    <li>
+      <h2><a [routerLink]="page.slug">{{page.title}}</a></h2>
+
+      <ul *ngIf="pageStore.hasChildren(page.id)">
+        <ng-container *ngFor="let child of pageStore.getChildPages(page.id)">
           <li>
-            <a [routerLink]="child.slug">{{ child.title }}</a>
-
-            <ul *ngIf="hasChildren(child.id)">
-              <ng-container *ngFor="let grandChild of getChildPages(child.id)">
+            <a [routerLink]="child.slug">{{child.title}}</a>
+            <ul *ngIf="pageStore.hasChildren(child.id)">
+              <ng-container *ngFor="let grandchild of pageStore.getChildPages(child.id)">
                 <li>
-                  <a [routerLink]="grandChild.slug">{{ grandChild.title }}</a>
+                  <a [routerLink]="grandchild.slug">{{grandchild.title}}</a>
                 </li>
               </ng-container>
             </ul>
-
           </li>
         </ng-container>
       </ul>

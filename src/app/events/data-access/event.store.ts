@@ -8,7 +8,6 @@ import { EventService } from "./event.service";
   providedIn: 'root'
 })
 export class EventStore {
-
   events$$ = signal<IEvent[]>([]);
   loading$$ = signal<boolean>(false);
   error$$ = signal<string | null>(null);

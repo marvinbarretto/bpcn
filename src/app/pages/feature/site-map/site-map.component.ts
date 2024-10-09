@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
-import { PageService } from '../../data-access/page.service';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Page, PageResponse } from '../../utils/page.model';
-
+import { PageStore } from '../../data-access/page.store';
 
 @Component({
   selector: 'app-site-map',
@@ -12,23 +10,10 @@ import { Page, PageResponse } from '../../utils/page.model';
   templateUrl: './site-map.component.html',
   styleUrl: './site-map.component.scss'
 })
-export class SiteMapComponent {
+export class SiteMapComponent implements OnInit {
+  constructor(public pageStore: PageStore) {}
 
-  pages!: PageResponse;
-
-  constructor(private pageService: PageService) {
-
-    this.pageService.getPages().subscribe(pages => {
-      console.log('siteMap', pages);
-      this.pages = pages;
-    });
-  }
-
-  getChildPages(pageId: number): Page[] {
-    return this.pages.data.filter( page => page.parentPage?.id === pageId);
-  }
-
-  hasChildren(pageId: number): boolean {
-    return this.getChildPages(pageId).length > 0;
+  ngOnInit() {
+    this.pageStore.loadPages();
   }
 }

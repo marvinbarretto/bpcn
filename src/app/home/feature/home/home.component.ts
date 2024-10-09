@@ -22,22 +22,10 @@ export interface User {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SiteMapComponent],
+  imports: [],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  constructor(
-    private userService: UserService
-  ) {
-    // this.userService.getUsers().subscribe(users => {
-    //   console.log(users);
-    // } );
-
-    // this.userService.getUserDetails().subscribe((user: User) => {
-    //   console.log(user);
-    // } );
-
-
-  }
+  constructor() {}
 }

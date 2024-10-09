@@ -3,6 +3,7 @@ import { LoginComponent } from './auth/feature/login/login.component';
 import { RegisterComponent } from './auth/feature/register/register.component';
 import { authGuard } from './auth/data-access/auth.guard';
 import { HomeComponent } from './home/feature/home/home.component';
+import { SiteMapComponent } from './pages/feature/site-map/site-map.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'site-map',
+    component: SiteMapComponent
   },
   {
     path: 'events',
