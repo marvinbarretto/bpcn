@@ -8,20 +8,25 @@
 
     <!-- If user has authority to moderate -->
     @if (authStore.canReviewEvents()) {
-      <a class="button" routerLink="/events/new">Review Pending Events</a>
+      <a class="button" routerLink="/events/review">Review Pending Events</a>
     }
   </div>
 
-  <ul class="event-list" *ngIf="eventStore.events$$().length">
-    <li *ngFor="let event of eventStore.events$$()">
-      <a class="event-list__item" routerLink="/events/{{ event.slug }}">
-        <h3>{{ event.title }}</h3>
-        <small>{{ event.date }}</small>
-      </a>
-    </li>
-  </ul>
+  <div *ngIf="eventStore.loading$$(); else eventList">
+    Loading events...
+  </div>
 
-  <div *ngIf="eventStore.loading$$()">Loading events...</div>
+  <ng-template #eventList>
+    <ul class="event-list" *ngIf="approvedEvents.length">
+      <li *ngFor="let event of approvedEvents">
+        <a class="event-list__item" routerLink="/events/{{ event.slug }}">
+          <h3>{{ event.title }}</h3>
+          <small>{{ event.date }}</small>
+        </a>
+      </li>
+    </ul>
+  </ng-template>
+
   <div *ngIf="eventStore.error$$()">{{ eventStore.error$$() }}</div>
 </div>
 

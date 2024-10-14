@@ -2,8 +2,12 @@ import { Routes } from "@angular/router";
 
 export const EVENTS_ROUTES: Routes = [
   {
-    path: 'create',
+    path: 'new',
     loadComponent: () => import('./feature/create-event/create-event.component').then(m => m.CreateEventComponent)
+  },
+  {
+    path: 'review',
+    loadComponent: () => import('./feature/review-events/review-events.component').then(m => m.ReviewEventsComponent)
   },
   {
     path: ':slug',

@@ -4,6 +4,7 @@ import { EventStore } from '../../data-access/event.store';
 import { RouterModule } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthStore } from '../../../auth/data-access/auth.store';
+import { EventStatus } from '../../utils/event.model';
 
 @Component({
   selector: 'app-event-list',
@@ -23,5 +24,9 @@ export class EventListComponent implements OnInit {
     } else {
       console.log('Events already loaded in store, no need to fetch.');
     }
+  }
+
+  get approvedEvents() {
+    return this.eventStore.events$$().filter((event) => event.eventStatus === EventStatus.APPROVED);
   }
 }

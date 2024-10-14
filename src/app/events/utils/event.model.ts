@@ -9,11 +9,12 @@ export interface IEventsResponse {
 
 export interface IEvent {
   title: string
-  description?: string
-  date?: string
+  slug: string
+  description: string
+  date: string
+  eventStatus: EventStatus
+
   location?: string
-  state?: EventStatus
-  slug?: string
   id?: number
   documentId?: string
   createdAt?: string

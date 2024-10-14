@@ -5,7 +5,6 @@ import { createMockAuthStore } from '../../../shared/utils/mock-store';
 import { createMockEventStore } from '../../../shared/utils/mock-store';
 import { EventStore } from '../../data-access/event.store';
 import { AuthStore } from '../../../auth/data-access/auth.store';
-import { RouterTestingModule } from '@angular/router/testing';
 import { provideRouter } from '@angular/router';
 
 

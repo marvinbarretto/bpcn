@@ -4,13 +4,14 @@ import { IEvent } from "../../events/utils/event.model";
 export function createMockEventStore() {
   return {
     events$$: jest.fn(() => signal([])),
-    loadEvents: jest.fn(),
+    loading$$: jest.fn(() => signal(false)),
+    error$$: jest.fn(() => signal(null)),
+    currentEvent$$: jest.fn(() => signal(null)),loadEvents: jest.fn(),
     loadEvent: jest.fn(),
     createEvent: jest.fn(),
     updateEvent: jest.fn(),
     deleteEvent: jest.fn(),
-    loading$$: jest.fn(() => signal(false)),
-    error$$: jest.fn(() => signal(null)),
+
   };
 }
 

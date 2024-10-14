@@ -1,24 +1,39 @@
-<h1>Create New Event</h1>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
 
-<form (ngSubmit)="onSubmit()" #eventForm="ngForm">
-  <label for="title">Title:</label>
-  <input id="title" name="title" [(ngModel)]="newEvent.title" required />
 
-  <label for="description">Description:</label>
-  <textarea id="description" name="description" [(ngModel)]="newEvent.description"></textarea>
+  <!-- TODO: Add a rich text editor here -->
+  <!-- TODO: Need to add a time picker here too or allow for all day -->
 
-  <label for="date">Date:</label>
-  <input type="date" id="date" name="date" [(ngModel)]="newEvent.date" required />
+  <div>
+    <label for="title">Title:</label>
+    <input id="title" formControlName="title" />
+    <div *ngIf="title!.invalid && title!.touched">Title is required</div>
+  </div>
 
-  <label for="location">Location:</label>
-  <input id="location" name="location" [(ngModel)]="newEvent.location" required />
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+    <div *ngIf="description!.invalid && description!.touched">Description is required</div>
+  </div>
 
-  <label for="state">State:</label>
-  <input id="state" name="state" [(ngModel)]="newEvent.state" required />
+  <div>
+    <label for="date">Date:</label>
+    <input type="date" id="date" formControlName="date" />
+    <div *ngIf="date!.invalid && date!.touched">Date is required</div>
+  </div>
 
-  <button type="submit" [disabled]="eventForm.invalid">Create Event</button>
+  <!-- TODO: Check if have authroity, if so then allow user to bypass pending -->
+
+  <div>
+    <label for="location">Location:</label>
+    <input id="location" formControlName="location" />
+    <div *ngIf="location!.invalid && location!.touched">Location is required</div>
+  </div>
+
+
+
+  <button type="submit" [disabled]="eventForm.invalid || eventStore.loading$$()">Create Event</button>
+
+  <div *ngIf="eventStore.loading$$()">Creating event, please wait...</div>
+  <div *ngIf="eventStore.error$$()">{{ eventStore.error$$() }}</div>
 </form>
-
-<div *ngIf="message" class="success-message">
-  {{ message }}
-</div>
