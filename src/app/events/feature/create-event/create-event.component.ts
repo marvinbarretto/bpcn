@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { IEvent, EventStatus } from '../../utils/event.model';
-import { StrapiService } from '../../../shared/data-access/strapi.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../../data-access/event.service';
