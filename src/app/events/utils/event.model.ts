@@ -13,7 +13,7 @@ export interface IEvent {
   date?: string
   location?: string
   state?: EventStatus
-
+  slug?: string
   id?: number
   documentId?: string
   createdAt?: string

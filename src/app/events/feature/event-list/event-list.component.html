@@ -1,11 +1,28 @@
-<h2>Events</h2>
-<div *ngIf="eventStore.loading$$()">Loading events...</div>
-<div *ngIf="eventStore.error$$()">{{ eventStore.error$$() }}</div>
+<div class="container">
+  <h2>Events</h2>
 
-<ul *ngIf="eventStore.events$$().length">
-  <li *ngFor="let event of eventStore.events$$()">
-    <h3>{{ event.title }}</h3>
-    <p>{{ event.description }}</p>
-    <small>{{ event.date }}</small>
-  </li>
-</ul>
+  <div class="actions">
+    @if (authStore.canCreateEvent()) {
+      <a class="button" routerLink="/events/new">Create New Event</a>
+    }
+
+    <!-- If user has authority to moderate -->
+    @if (authStore.canReviewEvents()) {
+      <a class="button" routerLink="/events/new">Review Pending Events</a>
+    }
+  </div>
+
+  <ul class="event-list" *ngIf="eventStore.events$$().length">
+    <li *ngFor="let event of eventStore.events$$()">
+      <a class="event-list__item" routerLink="/events/{{ event.slug }}">
+        <h3>{{ event.title }}</h3>
+        <small>{{ event.date }}</small>
+      </a>
+    </li>
+  </ul>
+
+  <div *ngIf="eventStore.loading$$()">Loading events...</div>
+  <div *ngIf="eventStore.error$$()">{{ eventStore.error$$() }}</div>
+</div>
+
+<!-- TODO: Pagination -->

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { PageService } from '../../data-access/page.service';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageStore } from '../../data-access/page.store';
 import { CommonModule, JsonPipe } from '@angular/common';
-import { tap } from 'rxjs';
+
+import { Page } from '../../utils/page.model';
 
 @Component({
   selector: 'app-page',
@@ -12,38 +12,20 @@ import { tap } from 'rxjs';
   templateUrl: './page.component.html',
   styleUrl: './page.component.scss'
 })
-export class PageComponent {
-  page: any = null;
-
+export class PageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public pageStore: PageStore,
-    private pageService: PageService
   ) {}
 
-  // ngOnInit() {
-  //   // Subscribe to the resolved page data
-  //   this.route.data.subscribe(data => {
-  //     if (data['page']) {
-  //       console.log('PageComponent: Resolved Page:', data['page']);
-  //       this.page = data['page'];
-
-  //       this.pageStore.loadPage(this.page.page.slug);
-  //     } else {
-  //       console.error('PageComponent: No page resolved');
-  //     }
-  //   });
-  // }
-
   ngOnInit() {
-    // Subscribe to the resolved page data
     this.route.data.subscribe(data => {
-      if (data['page']) {
-        console.log('PageComponent: Resolved Page:', data['page']);
-        // Instead of calling loadPage(), we directly set the page$$ signal
-        this.pageStore.page$$.set(data['page'].page); // Assuming the resolved data contains page object
-      } else {
-        console.error('PageComponent: No page resolved');
+      // Ensure the data thats come through the resolver contains a page object
+      const resolvedPage = data['page'] as { page: Page; fullPath: string } | null;
+
+      if (resolvedPage && resolvedPage.page) {
+        console.log('PageComponent: Resolved Page:', resolvedPage);
+        this.pageStore.page$$.set(resolvedPage.page);
       }
     });
   }

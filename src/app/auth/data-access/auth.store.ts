@@ -103,4 +103,30 @@ export class AuthStore {
   hasRole(role: Roles): boolean {
     return this.user$$()?.role.name === role;
   }
+
+  // TODO: Sort these out in Strapi
+  canCreateEvent(): boolean {
+    return true;
+  }
+
+  canCreateArticle(): boolean {
+    return true;
+  }
+
+  canCreateUser(): boolean {
+    return true;
+  }
+
+  canReviewEvents(): boolean {
+    return true;
+  }
+
+  // TODO: need roles for:
+    // - public
+    // - authenticated
+    // - canCreateEvent
+    // - canCreateArticle
+    // - admin
+    // - superAdmin
+
 }

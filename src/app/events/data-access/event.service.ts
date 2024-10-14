@@ -16,6 +16,16 @@ export class EventService extends StrapiService {
       );
   }
 
+  getEvent(documentId: string): Observable<IEvent> {
+    return this.get<{ data: IEvent }>(`events/${documentId}`)
+      .pipe(
+        map(response => response.data),
+        catchError(this.handleError)
+      );
+  }
+
+
+
   createEvent(event: IEvent): Observable<IEvent> {
     const payload: IEventsRequest = { data: event };
 

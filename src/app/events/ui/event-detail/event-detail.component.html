@@ -1,0 +1,14 @@
+<div *ngIf="loading()">
+  <p>Loading event...</p>
+</div>
+<div *ngIf="error()">
+  <p>{{ error() }}</p>
+</div>
+<div *ngIf="event() as selectedEvent; else noEvent">
+  <h1>{{ selectedEvent.title }}</h1>
+  <p>{{ selectedEvent.description }}</p>
+  <small>{{ selectedEvent.date }}</small>
+</div>
+<ng-template #noEvent>
+  <p>Event not found.</p>
+</ng-template>
