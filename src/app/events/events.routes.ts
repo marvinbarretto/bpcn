@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { EventStatus } from "./utils/event.model";
 
 export const EVENTS_ROUTES: Routes = [
   {
@@ -7,7 +8,8 @@ export const EVENTS_ROUTES: Routes = [
   },
   {
     path: 'review',
-    loadComponent: () => import('./feature/review-events/review-events.component').then(m => m.ReviewEventsComponent)
+    data: { filterStatus: EventStatus.PENDING },
+    loadComponent: () => import('./feature/event-list-container/event-list-container.component').then(m => m.EventListContainerComponent)
   },
   {
     path: ':slug',
@@ -15,7 +17,8 @@ export const EVENTS_ROUTES: Routes = [
   },
   {
     path: '',
-    loadComponent: () => import('./feature/event-list/event-list.component').then(m => m.EventListComponent)
+    data: { filterStatus: EventStatus.APPROVED },
+    loadComponent: () => import('./feature/event-list-container/event-list-container.component').then(m => m.EventListContainerComponent)
   },
   {
     path: '**',

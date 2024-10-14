@@ -1,5 +1,12 @@
+.container--approved {
+  background-color: rgba(green, .1);
+}
+
+.container--pending {
+  background-color: rgba(blue, .1);
+}
+
 .container {
-  background-color: rgba(red, .1);
   margin: 0 1rem;
 }
 

@@ -1,12 +1,20 @@
-<div class="container">
-  <h2>Events</h2>
+
+<!-- TODO: Pagination -->
+
+<div class="container container--{{ filterStatus.toLowerCase() }}">
+  <h2>
+    @if (filterStatus === EventStatus.PENDING) {
+      Pending
+    }
+    Events
+  </h2>
 
   <div class="actions">
     @if (authStore.canCreateEvent()) {
       <a class="button" routerLink="/events/new">Create New Event</a>
     }
 
-    <!-- If user has authority to moderate -->
+    <!-- TODO: If user has authority to moderate -->
     @if (authStore.canReviewEvents()) {
       <a class="button" routerLink="/events/review">Review Pending Events</a>
     }
@@ -17,17 +25,8 @@
   </div>
 
   <ng-template #eventList>
-    <ul class="event-list" *ngIf="approvedEvents.length">
-      <li *ngFor="let event of approvedEvents">
-        <a class="event-list__item" routerLink="/events/{{ event.slug }}">
-          <h3>{{ event.title }}</h3>
-          <small>{{ event.date }}</small>
-        </a>
-      </li>
-    </ul>
+    <app-event-list [events]="filteredEvents()" [loading]="loading" [error]="error"></app-event-list>
   </ng-template>
 
   <div *ngIf="eventStore.error$$()">{{ eventStore.error$$() }}</div>
 </div>
-
-<!-- TODO: Pagination -->

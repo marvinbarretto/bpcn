@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventListComponent } from './event-list.component';
+import { EventListContainerComponent } from './event-list-container.component';
 import { createMockAuthStore } from '../../../shared/utils/mock-store';
 import { createMockEventStore } from '../../../shared/utils/mock-store';
 import { EventStore } from '../../data-access/event.store';
@@ -9,8 +9,8 @@ import { provideRouter } from '@angular/router';
 
 
 describe('EventListComponent', () => {
-  let component: EventListComponent;
-  let fixture: ComponentFixture<EventListComponent>;
+  let component: EventListContainerComponent;
+  let fixture: ComponentFixture<EventListContainerComponent>;
 
   let mockEventStore: ReturnType<typeof createMockEventStore>;
   let mockAuthStore: ReturnType<typeof createMockAuthStore>;
@@ -28,7 +28,7 @@ describe('EventListComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EventListComponent);
+    fixture = TestBed.createComponent(EventListContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
