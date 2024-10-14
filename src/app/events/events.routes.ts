@@ -21,6 +21,11 @@ export const EVENTS_ROUTES: Routes = [
     loadComponent: () => import('./feature/event-list-container/event-list-container.component').then(m => m.EventListContainerComponent)
   },
   {
+    path: 'archived',
+    data: { filterStatus: EventStatus.ARCHIVED },
+    loadComponent: () => import('./feature/event-list-container/event-list-container.component').then(m => m.EventListContainerComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

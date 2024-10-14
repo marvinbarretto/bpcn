@@ -9,27 +9,3 @@
 .container {
   margin: 0 1rem;
 }
-
-.event-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-}
-
-.event-list__item {
-  background-color: rgba(red, .1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  &:hover {
-    background-color: rgba(red, .2);
-  }
-}
-
-.actions {
-  background-color: rgba(yellow, .1);
-  display: flex;
-  gap: 1rem;
-  margin: 0 0 1rem;
-}

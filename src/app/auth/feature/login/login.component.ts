@@ -13,8 +13,8 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   authStore = inject(AuthStore);
 
-  identifier = 'test0209@test0209.com';
-  password = 'test0209';
+  identifier = '';
+  password = '';
 
   onLogin() {
     if (this.identifier && this.password) {
