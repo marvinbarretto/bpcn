@@ -1,0 +1,50 @@
+<div class="accessibility">
+  <form [formGroup]="accessibilityForm">
+    <!-- Change Font Size -->
+    <label for="font-size">Font Size</label>
+    <input
+      type="range"
+      id="font-size"
+      min="12"
+      max="24"
+      formControlName="fontSize"
+    />
+
+    <br>
+
+    <!-- Change Background Color -->
+    <label for="bg-color">Background Color</label>
+    <input type="color" id="bg-color" formControlName="bgColor" />
+
+    <br>
+
+    <!-- Change Text Color -->
+    <label for="text-color">Text Color</label>
+    <input type="color" id="text-color" formControlName="textColor" />
+
+    <br>
+
+    <!-- New: Text Spacing -->
+    <label for="line-height">Line Height</label>
+    <input type="range" id="line-height" min="1" max="2.5" step="0.1" formControlName="lineHeight" />
+
+    <br>
+
+    <!-- New: Letter Spacing -->
+    <label for="letter-spacing">Letter Spacing</label>
+    <input type="range" id="letter-spacing" min="0" max="5" step="0.1" formControlName="letterSpacing" />
+
+    <br>
+
+    <!-- High contrast mode toggle -->
+    <label>
+      <input type="checkbox" formControlName="highContrast" />
+      High Contrast Mode
+    </label>
+
+    <br>
+
+    <!-- New: Reset to default button -->
+    <button type="button" (click)="resetToDefault()">Reset to Default</button>
+  </form>
+</div>

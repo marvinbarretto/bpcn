@@ -1,10 +1,21 @@
 @import 'assets/styles/reset';
 
+:root {
+  --font-size: 16px;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --line-height: 1.5;
+  --letter-spacing: 0;
+}
+
 body {
-  background-color: #EED ;
+  font-size: var(--font-size);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Helvetica', sans-serif;
-  color: #333;
 }

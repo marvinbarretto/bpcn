@@ -1,14 +1,8 @@
 <div class="user-info">
   @if (isLoggedIn) {
-    <div class="">
+    <div class="user-info__details">
       <span>{{ username }}</span>
       <span class="role">{{ role }}</span>
-    </div>
-
-    <div>
-      @if (authStore.hasRole(Roles.Authenticated)) {
-        Auth User
-      }
     </div>
     <button (click)="authStore.logout()">Logout</button>
   } @else {
