@@ -7,6 +7,7 @@ import { SiteMapComponent } from './pages/feature/site-map/site-map.component';
 import { PageResolverService } from './pages/data-access/page.resolver';
 import { pageGuard } from './pages/data-access/page.guard';
 import { UrlSegment, Route, UrlSegmentGroup, UrlMatchResult } from '@angular/router';
+import { NewsListComponent } from './news/feature/news-list/news-list.component';
 
 
 export const routes: Routes = [
@@ -21,6 +22,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'news',
+    component: NewsListComponent
   },
   {
     path: 'site-map',

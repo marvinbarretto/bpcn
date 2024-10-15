@@ -15,9 +15,5 @@ import { NewsService } from '../../../news/data-access/news.service';
 export class HomeComponent {
   authStore = inject(AuthStore);
 
-  constructor(private newsService: NewsService) {
-    this.newsService.getNews().subscribe((news) => {
-      console.log('news', news);
-    });
-  }
+
 }

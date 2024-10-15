@@ -11,6 +11,7 @@
     <li *ngFor="let link of pageStore.primaryNavLinksComputed$$()">
       <a [routerLink]="['/', link.slug]">{{ link.title }}</a>
     </li>
+    <li><a routerLink="/news">News</a></li>
     <li><a routerLink="/events">Events</a></li>
     <li><a routerLink="/site-map">Site map</a></li>
   </ul>
