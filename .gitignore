@@ -42,6 +42,7 @@ testem.log
 Thumbs.db
 
 # Environment
+.env
 environment.ts
 environment.prod.ts
 

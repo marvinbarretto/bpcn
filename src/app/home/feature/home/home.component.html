@@ -1,1 +1,11 @@
 <h1>Welcome to the BPCN</h1>
+
+@if (!authStore.isAuthenticated()) {
+  <div class="promote-event" >
+    <h2>Promote your event</h2>
+    <p>
+      <a routerLink="/register">Register now</a> to start creating and sharing events!
+    </p>
+  </div>
+}
+

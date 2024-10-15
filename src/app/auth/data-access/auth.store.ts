@@ -60,7 +60,7 @@ export class AuthStore {
     this.token$$.set(null);
     this.user$$.set(null);
 
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   register(payload: RegisterPayload) {
@@ -105,11 +105,11 @@ export class AuthStore {
   }
 
   canCreateEvent(): boolean {
-    return this.hasRole(Roles.Author);
+    return this.hasRole(Roles.Authenticated); // Author ?
   }
 
   canCreateArticle(): boolean {
-    return this.hasRole(Roles.Author);
+    return this.hasRole(Roles.Authenticated); // Author ?
   }
 
   canCreateUser(): boolean {
