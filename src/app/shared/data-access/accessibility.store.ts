@@ -8,7 +8,7 @@ import { UserPreferences } from '../utils/accessibility.model';
 export class AccessibilityStore {
   defaultPreferences: UserPreferences = {
     fontSize: 16,
-    bgColor: '#FFFFEE',
+    bgColor: '#FFFFDD',
     textColor: '#000000',
     lineHeight: 1.5,
     letterSpacing: 0.2,

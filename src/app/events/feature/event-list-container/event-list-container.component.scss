@@ -1,11 +1,26 @@
 .container--approved {
-  background-color: rgba(green, .1);
+  background-color: rgba(black, .1);
 }
 
 .container--pending {
-  background-color: rgba(blue, .1);
+  background-color: rgba(black, .1);
 }
 
 .container {
-  margin: 0 1rem;
+  padding: 1rem;
 }
+
+:host {
+  display: block;
+  margin: 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  background-color: rgba(white, .2);
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+
