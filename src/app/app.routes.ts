@@ -16,25 +16,28 @@ export const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'login', component: LoginComponent,
+    data: { title: 'Login' }
   },
   {
-    path: 'register',
-    component: RegisterComponent
+    path: 'register', component: RegisterComponent,
+    data: { title: 'Register' }
   },
   {
     path: 'news',
-    component: NewsListComponent
+    component: NewsListComponent,
+    data: { title: 'News' }
   },
   {
     path: 'site-map',
-    component: SiteMapComponent
+    component: SiteMapComponent,
+    data: { title: 'Site Map' }
   },
   {
     path: 'events',
     loadChildren: () => import('./events/events.routes').then(m => m.EVENTS_ROUTES),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { title: 'Events' }
   },
   // Only works for single-segment routes
   {
@@ -49,10 +52,10 @@ export const routes: Routes = [
     resolve: { page: PageResolverService },
     canActivate: [pageGuard]  // Add your guard if needed
   },
-  // {
-  //   path: '**',
-  //   redirectTo: '/'
-  // }
+  {
+    path: '**',
+    redirectTo: '/'
+  }
 ];
 
 // Custom matcher to handle multi-segment routes

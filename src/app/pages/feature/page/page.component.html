@@ -1,12 +1,11 @@
 
 <!-- TODO: Type up the JSON response -->
-  <!-- Consider best practice with how to handle wysisqyg -->
-   <!-- TODO: Fix the routing -->
-    <!-- TODO: Work out if it should be /about or how pages/about goes to about -->
+<!-- Consider best practice with how to handle wysisqyg -->
+<!-- TODO: Fix the routing -->
+<!-- TODO: Work out if it should be /about or how pages/about goes to about -->
 
-    <!-- TODO: PRevent page loading each time you run, should be saved in the signals -->
+<!-- TODO: PRevent page loading each time you run, should be saved in the signals -->
 
-<h1>Page</h1>
 <div *ngIf="pageStore.loading$$(); else pageContent">Loading...</div>
 
 <ng-template #pageContent>
@@ -27,15 +26,15 @@
           </span>
         </p>
 
-        <h1 *ngIf="block.type === 'heading' && block.level === 1">
-          <span *ngFor="let child of block.children">{{ child.text }}</span>
-        </h1>
-        <h2 *ngIf="block.type === 'heading' && block.level === 2">
+        <h2 *ngIf="block.type === 'heading' && block.level === 1">
           <span *ngFor="let child of block.children">{{ child.text }}</span>
         </h2>
-        <h3 *ngIf="block.type === 'heading' && block.level === 3">
+        <h3 *ngIf="block.type === 'heading' && block.level === 2">
           <span *ngFor="let child of block.children">{{ child.text }}</span>
         </h3>
+        <h4 *ngIf="block.type === 'heading' && block.level === 3">
+          <span *ngFor="let child of block.children">{{ child.text }}</span>
+        </h4>
 
         <!-- Render an unordered list -->
         <ul *ngIf="block.type === 'list' && block.format === 'unordered'">
