@@ -10,12 +10,10 @@
 
 body {
   font-size: var(--font-size);
+  // TODO: Reduce the font stack, just experimenting for now
+  font-family: 'Atkinson Hyperlegible', 'Lexend', 'Helvetica', sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
   line-height: var(--line-height);
   letter-spacing: var(--letter-spacing);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Helvetica', sans-serif;
 }

@@ -1,13 +1,26 @@
 <section class="news">
-  <h2>News</h2>
-  <ul>
-    <li *ngFor="let news of news">
-      <article>
-        <a [href]="news.link" target="_blank">
-          <h3>{{news.title}}</h3>
-          <small>{{news.pubDate}}</small>
-        </a>
-      </article>
-    </li>
-  </ul>
+  @if (isLoading) {
+    <p>Loading news...</p>
+  }
+
+  @if (errorMessage) {
+    <div class="error">
+      <p>{{ errorMessage }}</p>
+      <p><a href="https://news.google.com/search?q=prostate%20cancer&hl=en-GB&gl=GB&ceid=GB%3Aen">Prostate cancer news on Google News</a></p>
+    </div>
+  }
+
+  @if (!isLoading && !errorMessage) {
+    <h2>News</h2>
+    <ul>
+      <li *ngFor="let news of news">
+        <article>
+          <a [href]="news.link" target="_blank">
+            <h3>{{news.title}}</h3>
+            <small>{{news.pubDate}}</small>
+          </a>
+        </article>
+      </li>
+    </ul>
+  }
  </section>

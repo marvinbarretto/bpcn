@@ -7,10 +7,22 @@ export interface IEventsResponse {
   meta: Meta
 }
 
+export interface IEventContentBlock {
+  type: string
+  children: IEventContentBlockChild[]
+}
+
+export interface IEventContentBlockChild {
+  text: string
+  type: string
+  bold?: boolean
+  italic?: boolean
+}
+
 export interface IEvent {
   title: string
   slug: string
-  description: string
+  content: IEventContentBlock[]
   date: string
   eventStatus: EventStatus
 

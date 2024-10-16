@@ -7,7 +7,7 @@
     <li *ngFor="let event of events">
       <a class="event-list__item" routerLink="/events/{{ event.slug }}">
         <h3>{{ event.title }}</h3>
-        <small>{{ event.date }}</small>
+        <app-date [date]="parseDate(event.date)"></app-date>
       </a>
     </li>
   </ul>

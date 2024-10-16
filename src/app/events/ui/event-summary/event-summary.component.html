@@ -1,5 +1,5 @@
 <a class="event-sumamry" routerLink="/events/{{ event.id }}">
   <h3>{{ event.title }}</h3>
-  <small>{{ event.date }}</small>
+  <app-date [date]="parseDate(event.date)"></app-date>
 </a>
 

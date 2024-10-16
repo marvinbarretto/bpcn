@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventStore } from '../../data-access/event.store';
 import { inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
+import { IEventContentBlock } from '../../utils/event.model';
 
 @Component({
   selector: 'app-event-detail',
@@ -34,6 +35,17 @@ export class EventDetailComponent {
       console.log('loading event by slug', slug);
       this.eventStore.selectEventBySlug(slug);
     }
+  }
+
+  // Helper method to format date
+  formatEventDate(date: string): string {
+    const eventDate = new Date(date);
+    return formatDate(eventDate, 'MMMM d, yyyy, h:mm a', 'en-US');
+  }
+
+  // Check if the block has any meaningful content
+  hasContent(block: IEventContentBlock): boolean {
+    return block.children.some((child) => child.text.trim().length > 0);
   }
 
   ngOnDestroy() {
