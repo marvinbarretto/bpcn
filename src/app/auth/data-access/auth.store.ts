@@ -105,11 +105,11 @@ export class AuthStore {
   }
 
   canCreateEvent(): boolean {
-    return this.hasRole(Roles.Authenticated); // Author ?
+    return this.hasRole(Roles.Authenticated) || this.hasRole(Roles.Author) || this.hasRole(Roles.Admin);
   }
 
   canCreateArticle(): boolean {
-    return this.hasRole(Roles.Authenticated); // Author ?
+    return this.hasRole(Roles.Authenticated) || this.hasRole(Roles.Author) || this.hasRole(Roles.Admin);
   }
 
   canCreateUser(): boolean {

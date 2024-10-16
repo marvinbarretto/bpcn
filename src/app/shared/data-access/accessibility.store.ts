@@ -11,8 +11,7 @@ export class AccessibilityStore {
     bgColor: '#FFFFEE',
     textColor: '#333333',
     lineHeight: 1.5,
-    letterSpacing: 0.2,
-    highContrast: false
+    letterSpacing: 0.2
   };
 
   signals = {
@@ -20,8 +19,7 @@ export class AccessibilityStore {
     bgColor: signal<string>(this.defaultPreferences.bgColor),
     textColor: signal<string>(this.defaultPreferences.textColor),
     lineHeight: signal<number>(this.defaultPreferences.lineHeight),
-    letterSpacing: signal<number>(this.defaultPreferences.letterSpacing),
-    highContrast: signal<boolean>(this.defaultPreferences.highContrast),
+    letterSpacing: signal<number>(this.defaultPreferences.letterSpacing)
   };
 
   constructor() {
@@ -46,17 +44,10 @@ export class AccessibilityStore {
     effect(() => {
       this.updateCSSVariable('--letter-spacing', `${this.signals.letterSpacing()}px`);
     });
-
-    effect(() => {
-      if (this.signals.highContrast()) {
-        this.updateCSSVariable('--background-color', '#000');
-        this.updateCSSVariable('--text-color', '#ff0');
-      } else {
-        this.updateCSSVariable('--background-color', this.signals.bgColor());
-        this.updateCSSVariable('--text-color', this.signals.textColor());
-      }
-    });
   }
+
+
+  // Update user preference and persist to localStorage
 
   updatePreference<K extends keyof UserPreferences>(preference: K, value: UserPreferences[K]) {
 
@@ -82,9 +73,6 @@ export class AccessibilityStore {
       case 'letterSpacing':
         this.signals.letterSpacing.set(value as number);
         break;
-      case 'highContrast':
-        this.signals.highContrast.set(value as boolean);
-        break;
       default:
         console.error(`Unknown preference: ${preference}`);
         return;
@@ -93,6 +81,8 @@ export class AccessibilityStore {
     // Store the valid value in localStorage
     if (value !== null && value !== undefined) {
       localStorage.setItem(preference, value.toString());
+    } else {
+      console.warn(`Invalid value for preference: ${preference}`, value);
     }
   }
 
@@ -103,7 +93,6 @@ export class AccessibilityStore {
     const textColor = localStorage.getItem('textColor');
     const lineHeight = localStorage.getItem('lineHeight');
     const letterSpacing = localStorage.getItem('letterSpacing');
-    const highContrast = localStorage.getItem('highContrast');
 
     // Load valid values from localStorage or fallback to defaults
     this.signals.fontSize.set(fontSize ? Number(fontSize) : this.defaultPreferences.fontSize);
@@ -111,7 +100,6 @@ export class AccessibilityStore {
     this.signals.textColor.set(textColor ? textColor : this.defaultPreferences.textColor);
     this.signals.lineHeight.set(lineHeight ? Number(lineHeight) : this.defaultPreferences.lineHeight);
     this.signals.letterSpacing.set(letterSpacing ? Number(letterSpacing) : this.defaultPreferences.letterSpacing);
-    this.signals.highContrast.set(highContrast === 'true' ? true : this.defaultPreferences.highContrast);
   }
 
   // Update a single CSS variable
@@ -125,13 +113,11 @@ export class AccessibilityStore {
     this.signals.textColor.set(this.defaultPreferences.textColor);
     this.signals.lineHeight.set(this.defaultPreferences.lineHeight);
     this.signals.letterSpacing.set(this.defaultPreferences.letterSpacing);
-    this.signals.highContrast.set(this.defaultPreferences.highContrast);
 
     localStorage.removeItem('fontSize');
     localStorage.removeItem('bgColor');
     localStorage.removeItem('textColor');
     localStorage.removeItem('lineHeight');
     localStorage.removeItem('letterSpacing');
-    localStorage.removeItem('highContrast');
   }
 }

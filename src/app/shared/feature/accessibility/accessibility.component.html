@@ -1,6 +1,5 @@
-<div class="accessibility">
-  <form [formGroup]="accessibilityForm">
-    <!-- Change Font Size -->
+<form class="accessibility" [formGroup]="accessibilityForm">
+  <div>
     <label for="font-size">Font Size</label>
     <input
       type="range"
@@ -9,42 +8,37 @@
       max="24"
       formControlName="fontSize"
     />
+  </div>
 
-    <br>
-
-    <!-- Change Background Color -->
+  <div>
     <label for="bg-color">Background Color</label>
     <input type="color" id="bg-color" formControlName="bgColor" />
+  </div>
 
-    <br>
-
-    <!-- Change Text Color -->
+  <div>
     <label for="text-color">Text Color</label>
     <input type="color" id="text-color" formControlName="textColor" />
+  </div>
 
-    <br>
-
-    <!-- New: Text Spacing -->
+  <div>
     <label for="line-height">Line Height</label>
     <input type="range" id="line-height" min="1" max="2.5" step="0.1" formControlName="lineHeight" />
+  </div>
 
-    <br>
-
-    <!-- New: Letter Spacing -->
+  <div>
     <label for="letter-spacing">Letter Spacing</label>
     <input type="range" id="letter-spacing" min="0" max="5" step="0.1" formControlName="letterSpacing" />
+  </div>
 
-    <br>
+  <div class="combinations">
+    <app-a11y-letter
+      *ngFor="let combination of colourCombinations"
+      [bgColor]="combination.backgroundColor"
+      [textColor]="combination.textColor"
+      [type]="combination.type"
+      (letterClicked)="applyCombination(combination.backgroundColor, combination.textColor)"
+    ></app-a11y-letter>
+  </div>
 
-    <!-- High contrast mode toggle -->
-    <label>
-      <input type="checkbox" formControlName="highContrast" />
-      High Contrast Mode
-    </label>
-
-    <br>
-
-    <!-- New: Reset to default button -->
-    <button type="button" (click)="resetToDefault()">Reset to Default</button>
-  </form>
-</div>
+  <button type="button" (click)="resetToDefault()">Reset to Default</button>
+</form>

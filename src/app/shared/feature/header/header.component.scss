@@ -14,22 +14,50 @@ nav {
   background-color: #444;
   color: white;
   display: flex;
-  padding: 1rem;
   gap: .75rem;
 }
 
 ul {
   @media (min-width: 500px) {
     display: flex;
-    gap: 1rem;
   }
 }
 
 a {
+  display: block;
   text-decoration: underline;
+  padding: .5rem;
 }
 
 a:hover {
   background-color: white;
   color: #333;
+}
+
+
+.a11y-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  align-self: center;
+  overflow: hidden;
+  text-decoration: none;
+  .label {
+    text-decoration: underline;
+  }
+}
+
+nav ul {
+  flex: 1;
+  align-items: center;
+}
+
+.selected {
+  background-color: black;
+}
+
+.header__title {
+  font-weight: bold;
+  padding: 0;
 }

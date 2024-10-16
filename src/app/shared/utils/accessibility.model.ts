@@ -4,5 +4,7 @@ export interface UserPreferences {
   textColor: string;
   lineHeight: number;
   letterSpacing: number;
-  highContrast: boolean;
 }
+
+
+

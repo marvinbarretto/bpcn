@@ -1,13 +1,7 @@
 .container--approved {
-  background-color: rgba(black, .1);
 }
 
 .container--pending {
-  background-color: rgba(black, .1);
-}
-
-.container {
-  padding: 1rem;
 }
 
 :host {
@@ -18,7 +12,7 @@
 .actions {
   display: flex;
   gap: 1rem;
-  background-color: rgba(white, .2);
+  background-color: rgba(black, .1);
   padding: 1rem;
   margin: 1rem 0;
 }

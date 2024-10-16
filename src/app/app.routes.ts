@@ -8,6 +8,7 @@ import { PageResolverService } from './pages/data-access/page.resolver';
 import { pageGuard } from './pages/data-access/page.guard';
 import { UrlSegment, Route, UrlSegmentGroup, UrlMatchResult } from '@angular/router';
 import { NewsListComponent } from './news/feature/news-list/news-list.component';
+import { AccessibilityComponent } from './shared/feature/accessibility/accessibility.component';
 
 
 export const routes: Routes = [
@@ -27,6 +28,11 @@ export const routes: Routes = [
     path: 'news',
     component: NewsListComponent,
     data: { title: 'News' }
+  },
+  {
+    path: 'accessibility',
+    component: AccessibilityComponent,
+    data: { title: 'Accessibility' }
   },
   {
     path: 'site-map',

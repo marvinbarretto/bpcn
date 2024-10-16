@@ -1,18 +1,27 @@
 <div class="header">
-  <!-- TODO: Fetch from CMS -->
-  <!-- TODO: Only make it a link if its not on the homepage -->
-  <a routerLink="/" class="header__title">
-    BPCN
-  </a>
+  <ng-container *ngIf="!isHomepage; else titleWithoutLink">
+    <a routerLink="/" class="header__title">Black Prostate Cancer Network</a>
+  </ng-container>
+  <ng-template #titleWithoutLink>
+    <h1 class="header__title">Black Prostate Cancer Network</h1>
+  </ng-template>
 </div>
+
 
 <nav>
   <ul>
     <li *ngFor="let link of pageStore.primaryNavLinksComputed$$()">
-      <a [routerLink]="['/', link.slug]">{{ link.title }}</a>
+      <a
+        [routerLink]="['/', link.slug]"
+        routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }">{{ link.title }}</a>
     </li>
-    <li><a routerLink="/news">News</a></li>
-    <li><a routerLink="/events">Events</a></li>
-    <li><a routerLink="/site-map">Site map</a></li>
+    <li><a routerLink="/news" routerLinkActive="selected">News</a></li>
+    <li><a routerLink="/events" routerLinkActive="selected">Events</a></li>
+    <li><a routerLink="/site-map" routerLinkActive="selected">Site map</a></li>
   </ul>
+  <a class="a11y-link" routerLink="/accessibility">
+    <span class="label">Accessibility</span>
+    <span class="material-symbols-outlined">accessibility_new</span>
+  </a>
 </nav>

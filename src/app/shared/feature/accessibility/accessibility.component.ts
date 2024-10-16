@@ -3,17 +3,21 @@ import { AccessibilityStore } from '../../data-access/accessibility.store';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { AccessibilityColourCombinations } from '../../utils/a11y-colours';
+import { A11yLetterComponent } from '../../ui/a11y-letter/a11y-letter.component';
 
 @Component({
   selector: 'app-accessibility',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, A11yLetterComponent],
   templateUrl: './accessibility.component.html',
   styleUrl: './accessibility.component.scss'
 })
 export class AccessibilityComponent {
 
   accessibilityForm!: FormGroup;
+
+  colourCombinations = AccessibilityColourCombinations;
 
   constructor(
     public accessibilityStore: AccessibilityStore,
@@ -27,8 +31,6 @@ export class AccessibilityComponent {
       textColor: [this.accessibilityStore.signals.textColor()],
       lineHeight: [this.accessibilityStore.signals.lineHeight()],
       letterSpacing: [this.accessibilityStore.signals.letterSpacing()],
-      highContrast: [this.accessibilityStore.signals.highContrast()]
-
     });
 
     // Debounced form value change listeners
@@ -37,6 +39,7 @@ export class AccessibilityComponent {
     });
 
     this.accessibilityForm.get('bgColor')?.valueChanges.pipe(debounceTime(300)).subscribe(value => {
+      console.log('bgColor', value);
       this.accessibilityStore.updatePreference('bgColor', value);
     });
 
@@ -52,9 +55,12 @@ export class AccessibilityComponent {
       this.accessibilityStore.updatePreference('letterSpacing', value);
     });
 
-    this.accessibilityForm.get('highContrast')?.valueChanges.subscribe(value => {
-      this.accessibilityStore.updatePreference('highContrast', value);
-    });
+  }
+
+  applyCombination(bgColor: string, textColor: string): void {
+    this.accessibilityForm.patchValue({ bgColor, textColor });
+    this.accessibilityStore.updatePreference('bgColor', bgColor);
+    this.accessibilityStore.updatePreference('textColor', textColor);
   }
 
   onFontSizeChange(event: any): void {
@@ -74,6 +80,12 @@ export class AccessibilityComponent {
 
   resetToDefault() {
     this.accessibilityStore.resetToDefault();
-    this.accessibilityForm.reset();
+    this.accessibilityForm.reset({
+      fontSize: this.accessibilityStore.signals.fontSize(),
+      bgColor: this.accessibilityStore.signals.bgColor(),
+      textColor: this.accessibilityStore.signals.textColor(),
+      lineHeight: this.accessibilityStore.signals.lineHeight(),
+      letterSpacing: this.accessibilityStore.signals.letterSpacing()
+    });
   }
 }
