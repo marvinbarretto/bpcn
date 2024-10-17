@@ -3,11 +3,12 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { PageStore } from '../../../pages/data-access/page.store';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
+import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, FeatureFlagPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
