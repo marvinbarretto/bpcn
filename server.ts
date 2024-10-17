@@ -5,54 +5,138 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 import { provideClientHydration } from '@angular/platform-browser';
+import compression from 'compression';
+import dotenv from 'dotenv';
+import axios from 'axios';
+import cors from 'cors';
+import { createClient } from 'redis';
+import rateLimit from 'express-rate-limit';
+import { Request, Response, NextFunction } from 'express';
 
-// The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
-  const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
+// Load environment variables
+dotenv.config();
 
-  const commonEngine = new CommonEngine();
+// Create Redis client
+const redisClient = createClient({
+  url: `redis://${process.env['REDIS_HOST'] || '127.0.0.1'}:${process.env['REDIS_PORT'] || 6379}`,
+});
 
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
+// Connect to Redis
+const connectRedis = async () => {
+  try {
+    await redisClient.connect();
+    console.log('Redis client connected');
+  } catch (err) {
+    console.error('Error connecting to Redis:', err);
+  }
+};
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  server.get('**', express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: 'index.html',
-  }));
+// Redis event listeners
+redisClient.on('ready', () => console.log('Redis is ready'));
+redisClient.on('error', (err) => console.error('Redis error:', err));
+redisClient.on('end', () => console.log('Redis connection closed'));
 
-  // All regular routes use the Angular engine
-  server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
+// Cache TTL (28 days by default)
+const NEWS_CACHE_TTL = process.env['NEWS_CACHE_TTL_DAYS']
+  ? parseInt(process.env['NEWS_CACHE_TTL_DAYS']) * 24 * 60 * 60
+  : 2419200;
 
-    commonEngine
-      .render({
-        bootstrap,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [
-          { provide: APP_BASE_HREF, useValue: baseUrl },
-        ],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
-  });
+// RSS feed URL
+const rssUrl = `https://news.google.com/rss/search?q=prostate+cancer&hl=en-GB&gl=GB&ceid=GB:en`;
 
-  return server;
-}
+const app = express();
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const browserDistFolder = resolve(serverDistFolder, '../browser');
+const indexHtml = join(serverDistFolder, 'index.server.html');
+const commonEngine = new CommonEngine();
 
-function run(): void {
+// Set up view engine
+app.set('view engine', 'html');
+app.set('views', browserDistFolder);
+
+// Enable Gzip compression
+app.use(compression());
+
+// Enable CORS
+app.use(cors());
+
+// Rate Limiting middleware
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per window
+  message: 'Too many requests, try again later!',
+});
+app.use(limiter);
+
+// Middleware to check Redis cache for news data
+const checkCache = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = await redisClient.get('newsData');
+    if (data) {
+      console.log('Serving from Redis cache');
+      res.send(JSON.parse(data));
+    } else {
+      next(); // No cache, proceed to fetch data
+    }
+  } catch (err) {
+    console.error('Redis error:', err);
+    res.status(500).send('Redis error');
+  }
+  return; // Explicit return statement
+};
+
+// Route to get news with caching
+app.get('/api/news', checkCache, async (req, res) => {
+  try {
+    console.log('Fetching fresh data from API');
+    const response = await axios.get(rssUrl);
+
+    // Cache the response in Redis
+    await redisClient.setEx('newsData', NEWS_CACHE_TTL, JSON.stringify(response.data));
+    console.log('Data successfully cached in Redis');
+
+    res.send(response.data);
+  } catch (error) {
+    console.error('Error fetching news from API:', error);
+    res.status(500).send('Error fetching news');
+  }
+});
+
+// Serve static files from /browser
+app.get('**', express.static(browserDistFolder, {
+  maxAge: '1y',
+  index: 'index.html',
+}));
+
+// All regular routes use the Angular Universal engine for SSR
+app.get('**', (req, res, next) => {
+  const { protocol, originalUrl, baseUrl, headers } = req;
+
+  commonEngine
+    .render({
+      bootstrap,
+      documentFilePath: indexHtml,
+      url: `${protocol}://${headers.host}${originalUrl}`,
+      publicPath: browserDistFolder,
+      providers: [
+        { provide: APP_BASE_HREF, useValue: baseUrl },
+      ],
+    })
+    .then((html) => res.send(html))
+    .catch((err) => {
+      console.error('SSR rendering error:', err);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+// Function to start the server
+async function run() {
   const port = process.env['PORT'] || 4000;
 
-  // Start up the Node server
-  const server = app();
-  server.listen(port, () => {
+  // Ensure Redis is connected before starting the server
+  await connectRedis();
+
+  app.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }

@@ -1,0 +1,21 @@
+<div class="pagination">
+  <p>Page <b>{{ currentPage }}</b> of <b>{{ totalPages }}</b></p>
+
+  <div class="buttons">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">&#x2190; Previous</button>
+
+    <!-- Loop through all page numbers and render buttons for each -->
+    <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+      <button
+        [class.active]="i + 1 === currentPage"
+        (click)="goToPage(i + 1)"
+        [attr.aria-label]="'Go to page ' + (i + 1)"
+        [attr.aria-current]="i + 1 === currentPage ? 'page' : null">
+        {{ i + 1 }}
+      </button>
+    </ng-container>
+
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next &#x2192;</button>
+  </div>
+
+</div>

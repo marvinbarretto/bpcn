@@ -16,11 +16,8 @@
 will run on post `1337`
 
 ### Angular:
-`ng serve` will run on `4200`
-
-### API Proxy & Cache:
-Ensure Redis is installed and running, then to run the proxy server: `node proxy-server.js`
-which should run on `3000` and handle requests to news.
+- Just in time: `ng serve` will run on `4200`
+- SSR: `ng build` then `ng serve` to run on `3000`
 
 ### Search Engine (Meilisearch)
 Run: `./meilisearch --master-key="BlackProstateCancerNetwork"`

@@ -8,6 +8,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin: 1rem;
 
 }
 
@@ -24,12 +25,13 @@ li {
   margin: 1rem 0;
 }
 
+// TODO: Formalise all these rules
 h3 {
-  color: rgb(22, 22, 167);
+  // color: rgb(22, 22, 167);
   text-decoration: underline;
-  &:hover {
-    color: rgb(167, 22, 22);
-  }
+  // &:hover {
+    // color: rgb(167, 22, 22);
+  // }
 }
 
 .error {

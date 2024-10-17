@@ -1,6 +1,7 @@
-import { effect, Injectable } from '@angular/core';
+import { effect, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { signal } from '@angular/core';
 import { UserPreferences } from '../utils/accessibility.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,10 @@ export class AccessibilityStore {
     letterSpacing: signal<number>(this.defaultPreferences.letterSpacing)
   };
 
-  constructor() {
-    this.loadFromLocalStorage();
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadFromLocalStorage();
+    }
 
     effect(() => {
       this.updateCSSVariable('--font-size', `${this.signals.fontSize()}px`);
@@ -79,7 +82,7 @@ export class AccessibilityStore {
     }
 
     // Store the valid value in localStorage
-    if (value !== null && value !== undefined) {
+    if (value !== null && value !== undefined && isPlatformBrowser(this.platformId)) {
       localStorage.setItem(preference, value.toString());
     } else {
       console.warn(`Invalid value for preference: ${preference}`, value);
@@ -88,6 +91,7 @@ export class AccessibilityStore {
 
   // Load preferences from localStorage and handle invalid values
   loadFromLocalStorage() {
+
     const fontSize = localStorage.getItem('fontSize');
     const bgColor = localStorage.getItem('bgColor');
     const textColor = localStorage.getItem('textColor');
@@ -99,7 +103,8 @@ export class AccessibilityStore {
     this.signals.bgColor.set(bgColor ? bgColor : this.defaultPreferences.bgColor);
     this.signals.textColor.set(textColor ? textColor : this.defaultPreferences.textColor);
     this.signals.lineHeight.set(lineHeight ? Number(lineHeight) : this.defaultPreferences.lineHeight);
-    this.signals.letterSpacing.set(letterSpacing ? Number(letterSpacing) : this.defaultPreferences.letterSpacing);
+      this.signals.letterSpacing.set(letterSpacing ? Number(letterSpacing) : this.defaultPreferences.letterSpacing);
+
   }
 
   // Update a single CSS variable
@@ -114,10 +119,12 @@ export class AccessibilityStore {
     this.signals.lineHeight.set(this.defaultPreferences.lineHeight);
     this.signals.letterSpacing.set(this.defaultPreferences.letterSpacing);
 
-    localStorage.removeItem('fontSize');
-    localStorage.removeItem('bgColor');
-    localStorage.removeItem('textColor');
-    localStorage.removeItem('lineHeight');
-    localStorage.removeItem('letterSpacing');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('fontSize');
+      localStorage.removeItem('bgColor');
+      localStorage.removeItem('textColor');
+      localStorage.removeItem('lineHeight');
+      localStorage.removeItem('letterSpacing');
+    }
   }
 }

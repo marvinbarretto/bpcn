@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { catchError,  Observable, throwError } from 'rxjs';
 import { environment } from '../../environment';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,15 @@ export class StrapiService {
   private http = inject(HttpClient);
   private baseUrl = environment.strapiUrl;
 
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
+
   private getAuthToken() {
-    return localStorage.getItem('authToken');
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('authToken');
+    }
+    return null;
   }
 
   // TODO: Replace with interceptor, make use of HttpClient

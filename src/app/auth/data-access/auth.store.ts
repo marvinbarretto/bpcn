@@ -1,4 +1,4 @@
-import { Injectable, signal } from "@angular/core";
+import { Inject, Injectable, PLATFORM_ID, signal } from "@angular/core";
 import { User } from "../../users/utils/user.model";
 import { AuthService } from "./auth.service";
 import { of } from 'rxjs';
@@ -7,13 +7,13 @@ import { AuthResponse, RegisterPayload } from "../utils/auth.model";
 import { Router } from "@angular/router";
 import { UserService } from "../../users/data-access/user.service";
 import { Roles } from "../utils/roles.enum";
+import { isPlatformBrowser } from "@angular/common";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthStore {
-
   user$$ = signal<User | null>(null);
   token$$ = signal<string | null>(null);
   loading$$ = signal<boolean>(false);
@@ -22,18 +22,21 @@ export class AuthStore {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.loadUserFromStorage();
   }
 
   private loadUserFromStorage() {
-    const token = localStorage.getItem('authToken');
-    const user = localStorage.getItem('user');
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      const user = localStorage.getItem('user');
 
-    if (token && user) {
-      this.token$$.set(token);
-      this.user$$.set(JSON.parse(user));
+      if (token && user) {
+        this.token$$.set(token);
+        this.user$$.set(JSON.parse(user));
+      }
     }
   }
 
@@ -52,9 +55,10 @@ export class AuthStore {
   }
 
   logout() {
-    // Clear local storage
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+    }
 
     // Clear state
     this.token$$.set(null);
@@ -79,12 +83,17 @@ export class AuthStore {
 
   private handleLoginSuccess(response: AuthResponse) {
     this.token$$.set(response.jwt);
-    localStorage.setItem('authToken', response.jwt);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('authToken', response.jwt);
+    }
 
-    // NOTE: Unfortunately we dont get enough information about the user in the response so we have to make a call to the userService to get the user with role
+    // NOTE: Unfortunately we dont get enough information about the user
+    // in the response so we have to make a call to the userService to get the user with role
     this.userService.getUserDetails().subscribe((user: User) => {
       this.user$$.set(user);
-      localStorage.setItem('user', JSON.stringify(user));
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('user', JSON.stringify(user));
+      }
 
       this.loading$$.set(false);
       this.error$$.set(null);
