@@ -7,10 +7,11 @@ import { of } from 'rxjs';
 import { PaginationService } from '../../../shared/data-access/pagination.service';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../shared/ui/pagination/pagination.component';
+import { DateComponent } from '../../../shared/ui/date/date.component';
 @Component({
   selector: 'app-news-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent, DateComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.scss'
 })
@@ -65,6 +66,10 @@ export class NewsListComponent {
   onPageChange(page: number) {
     this.currentPage = page;
     this.updatePaginatedNews();
+  }
+
+  getDate(dateString: string): Date {
+    return new Date(dateString);
   }
 
 }

@@ -10,7 +10,6 @@ const redisClient = redis.createClient({
   port: process.env.REDIS_PORT || 6379
 });
 
-// Promisify Redis client connection
 const connectRedis = async () => {
   try {
     await redisClient.connect();

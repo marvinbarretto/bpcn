@@ -6,6 +6,7 @@
 
 <!-- TODO: PRevent page loading each time you run, should be saved in the signals -->
 
+
 <div *ngIf="pageStore.loading$$(); else pageContent">Loading...</div>
 
 <ng-template #pageContent>
@@ -16,24 +17,23 @@
       <ng-container *ngFor="let block of pageStore.page$$()?.content">
 
         <p *ngIf="block.type === 'paragraph'">
-          <span *ngFor="let child of block.children">
+          <ng-container *ngFor="let child of block.children">
 
-            <span *ngIf="!child.bold && !child.italic && !child.strikethrough">{{ child.text }}</span>
+            <ng-container *ngIf="!child.bold && !child.italic && !child.strikethrough">{{ child.text }}</ng-container>
             <b *ngIf="child.bold">{{ child.text }}</b>
             <i *ngIf="child.italic">{{ child.text }}</i>
             <s *ngIf="child.strikethrough">{{ child.text }}</s>
-
-          </span>
+          </ng-container>
         </p>
 
         <h2 *ngIf="block.type === 'heading' && block.level === 1">
-          <span *ngFor="let child of block.children">{{ child.text }}</span>
+          <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
         </h2>
         <h3 *ngIf="block.type === 'heading' && block.level === 2">
-          <span *ngFor="let child of block.children">{{ child.text }}</span>
+          <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
         </h3>
         <h4 *ngIf="block.type === 'heading' && block.level === 3">
-          <span *ngFor="let child of block.children">{{ child.text }}</span>
+          <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
         </h4>
 
         <!-- Render an unordered list -->

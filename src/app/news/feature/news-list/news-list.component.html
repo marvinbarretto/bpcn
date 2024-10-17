@@ -12,16 +12,6 @@
 
   @if (!isLoading && !errorMessage) {
     <h2>News</h2>
-    <!-- <ul>
-      <li *ngFor="let news of news">
-        <article>
-          <a [href]="news.link" target="_blank">
-            <h3>{{news.title}}</h3>
-            <small>{{news.pubDate}}</small>
-          </a>
-        </article>
-      </li>
-    </ul> -->
 
     <ul>
       <li *ngFor="let news of paginatedNews">
@@ -33,8 +23,6 @@
         </article>
       </li>
     </ul>
-
-
     <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [pageSize]="pageSize" (pageChange)="onPageChange($event)"></app-pagination>
   }
  </section>

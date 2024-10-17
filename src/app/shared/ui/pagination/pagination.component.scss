@@ -16,12 +16,16 @@
 
 button {
   background-color: rgba(0, 0, 0, 0.1);
-  border: none;
   padding: 0.5rem 1rem;
-  cursor: pointer;
 }
 
 .active {
   background-color: #333;
   color: #fff;
+}
+
+button:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #333;
+  cursor: not-allowed;
 }
