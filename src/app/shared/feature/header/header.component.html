@@ -7,7 +7,6 @@
   </ng-template>
 </div>
 
-
 <nav>
   <ul>
     <li *ngFor="let link of pageStore.primaryNavLinksComputed$$()">
@@ -16,15 +15,14 @@
         routerLinkActive="selected"
         [routerLinkActiveOptions]="{ exact: true }">{{ link.title }}</a>
     </li>
-    <li><a routerLink="/news" routerLinkActive="selected">News</a></li>
-    <li><a routerLink="/events" routerLinkActive="selected">Events</a></li>
-    <li><a routerLink="/site-map" routerLinkActive="selected">Site map</a></li>
+    <li *ngIf="'news' | featureFlag"><a routerLink="/news" routerLinkActive="selected">News</a></li>
+    <li *ngIf="'events' | featureFlag"><a routerLink="/events" routerLinkActive="selected">Events</a></li>
+    <li *ngIf="'siteMap' | featureFlag"><a routerLink="/site-map" routerLinkActive="selected">Site map</a></li>
   </ul>
 
-  <!-- <ng-container *ngIf="'accessibility' | featureFlag"> -->
-    <a class="a11y-link" routerLink="/accessibility">
-      <span class="label">Accessibility</span>
-      <span class="material-symbols-outlined">accessibility_new</span>
-    </a>
-  <!-- </ng-container> -->
+  <a *ngIf="'accessibility' | featureFlag" class="a11y-link" routerLink="/accessibility">
+    <span class="label">Accessibility</span>
+    <span class="material-symbols-outlined">accessibility_new</span>
+  </a>
+
 </nav>

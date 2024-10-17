@@ -3,11 +3,12 @@ import { AuthStore } from '../../../auth/data-access/auth.store';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Roles } from '../../../auth/utils/roles.enum';
+import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
 
 @Component({
   selector: 'app-user-info',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FeatureFlagPipe],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.scss'
 })

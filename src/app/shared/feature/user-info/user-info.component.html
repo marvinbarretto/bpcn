@@ -7,8 +7,8 @@
     <button (click)="authStore.logout()">Logout</button>
   } @else {
     <nav>
-      <a routerLink="/login">Login</a>
-      <a routerLink="/register">Register</a>
+      <a *ngIf="'login' | featureFlag" routerLink="/login">Login</a>
+      <a *ngIf="'register' | featureFlag" routerLink="/register">Register</a>
     </nav>
   }
 </section>
