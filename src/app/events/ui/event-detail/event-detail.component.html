@@ -4,52 +4,46 @@
 <div *ngIf="error()">
   <p>{{ error() }}</p>
 </div>
-<div *ngIf="event() as event; else noEvent">
+<article class="event" *ngIf="event() as event; else noEvent">
 
-  <div>
-    <!-- Event metadata -->
-    <h1>{{ event.title }}</h1>
+
+  <h1>{{ event.title }}</h1>
+  <div class="event__metadata">
     <p><strong>Date:</strong> {{ formatEventDate(event.date) }}</p>
     <p *ngIf="event.location"><strong>Location:</strong> {{ event.location }}</p>
-
-    <!-- Event content rendering -->
-    <div *ngFor="let block of event.content">
-
-      <!-- Render a heading -->
-      <ng-container *ngIf="block.type === 'heading' && block.children!.length > 0">
-        <h2>
-          <ng-container *ngFor="let child of block.children!">
-            {{ child.text }}
-          </ng-container>
-        </h2>
-      </ng-container>
-
-      <!-- Render a paragraph, trimming empty children -->
-      <ng-container *ngIf="block.type === 'paragraph' && hasContent(block)">
-        <p>
-          <ng-container *ngFor="let child of block.children">
-            <!-- Conditionally apply formatting (bold, italic) -->
-            <span
-              [ngClass]="{
-                'bold': child.bold,
-                'italic': child.italic
-              }">
-              {{ child.text }}
-            </span>
-          </ng-container>
-        </p>
-      </ng-container>
-
-    </div>
   </div>
 
+  <!-- Event content rendering -->
+  <div class="event__content" *ngFor="let block of event.content">
 
+    <!-- Render a heading -->
+    <ng-container *ngIf="block.type === 'heading' && block.children!.length > 0">
+      <h2>
+        <ng-container *ngFor="let child of block.children!">
+          {{ child.text }}
+        </ng-container>
+      </h2>
+    </ng-container>
 
+    <!-- Render a paragraph, trimming empty children -->
+    <ng-container *ngIf="block.type === 'paragraph' && hasContent(block)">
+      <p>
+        <ng-container *ngFor="let child of block.children">
+          <!-- Conditionally apply formatting (bold, italic) -->
+          <span
+            [ngClass]="{
+              'bold': child.bold,
+              'italic': child.italic
+            }">
+            {{ child.text }}
+          </span>
+        </ng-container>
+      </p>
+    </ng-container>
 
+  </div>
 
-
-
-</div>
+</article>
 
 
 <ng-template #noEvent>
@@ -64,6 +58,8 @@
 
 <!-- TODO: Add blurb to the event detail page -->
 <!-- TODO: Add image to the event detail page -->
+
+<!--TODO: Handle the case where the event has no content blocks-->
 
 
 <!-- Show a bit more content on the snippets, retreive an image too -->
