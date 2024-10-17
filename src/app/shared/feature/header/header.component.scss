@@ -1,7 +1,16 @@
+$desktop-breakpoint: 600px;
+$header-bg-color: #333;
+$menu-bg-color: #444;
+$text-color: white;
+
+:host {
+  display: block;
+}
+
 .header {
-  background-color: #333;
-  color: white;
-  padding: 10px;
+  background-color: $header-bg-color;
+  color: $text-color;
+  padding: .5rem;
   text-align: center;
 }
 
@@ -10,15 +19,17 @@
   text-decoration: none;
 }
 
-nav {
-  background-color: #444;
+.menu {
+  background-color: $menu-bg-color;
   color: white;
   display: flex;
   gap: .75rem;
+  position: relative;
+  z-index: 1000;
 }
 
-ul {
-  @media (min-width: 500px) {
+.menu__list {
+  @media (min-width: $desktop-breakpoint) {
     display: flex;
   }
 }
@@ -61,3 +72,56 @@ nav ul {
   font-weight: bold;
   padding: 0;
 }
+
+.menu__toggle {
+  padding: .5rem;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  flex: 1;
+  text-align: left;
+  display: flex;
+  gap: .25rem;
+  align-items: center;
+  justify-content: flex-start;
+  @media (min-width: 600px) {
+    display: none;
+  }
+  &:hover {
+    background-color: white;
+    color: #333;
+  }
+}
+
+.menu__toggle__label {
+  text-decoration: underline;
+}
+
+
+.menu--mobile .menu__toggle {
+  display: flex;
+}
+
+@media screen and (min-width: 601px) {
+  /* Ensure the navigation is always visible on desktop */
+  .menu__list {
+    display: flex;
+  }
+
+  .menu__toggle {
+    display: none; /* Hide toggle button on desktop */
+  }
+}
+
+.menu--open {
+  position: fixed;
+
+  width: 100%;
+  flex-direction: column;
+  gap: 0;
+  .a11y-link {
+    width: 100%;
+  }
+}
+
+

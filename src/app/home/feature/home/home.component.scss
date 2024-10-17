@@ -4,10 +4,19 @@
 
 .hero {
   background-color: grey;
-  // background-image: url('/images/hero.webp');
+  background-image: url('/images/hero.webp');
   background-size: cover;
   background-position: top;
   min-height: 300px;
   height: 25vw;
   width: 100vw;
+  display: flex;
+  align-items: flex-end;
+}
+
+h1 {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  background-color: rgba(white, .8);
+  padding: .5rem;
 }

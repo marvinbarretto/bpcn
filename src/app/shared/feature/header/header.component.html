@@ -7,22 +7,32 @@
   </ng-template>
 </div>
 
-<nav>
-  <ul>
+<nav class="menu" [ngClass]="{ 'menu--mobile': isMobile, 'menu--open': isMobile && isNavOpen }">
+  <button class="menu__toggle" *ngIf="isMobile" (click)="toggleMobileNavigation()">
+    <span class="material-symbols-outlined">menu</span>
+    <span class="menu__toggle__label">Toggle navigation</span>
+  </button>
+
+  <ul class="menu__list" [ngClass]="{ 'hidden': isMobile && !isNavOpen }">
     <li *ngFor="let link of pageStore.primaryNavLinksComputed$$()">
-      <a
-        [routerLink]="['/', link.slug]"
-        routerLinkActive="selected"
+      <a [routerLink]="['/', link.slug]" routerLinkActive="selected"
+        (click)="closeNavOnLinkClick()"
         [routerLinkActiveOptions]="{ exact: true }">{{ link.title }}</a>
     </li>
-    <li *ngIf="'news' | featureFlag"><a routerLink="/news" routerLinkActive="selected">News</a></li>
-    <li *ngIf="'events' | featureFlag"><a routerLink="/events" routerLinkActive="selected">Events</a></li>
-    <li *ngIf="'siteMap' | featureFlag"><a routerLink="/site-map" routerLinkActive="selected">Site map</a></li>
+
+    <li *ngIf="'news' | featureFlag">
+      <a (click)="closeNavOnLinkClick()" routerLink="/news" routerLinkActive="selected">News</a>
+    </li>
+    <li *ngIf="'events' | featureFlag">
+      <a (click)="closeNavOnLinkClick()" routerLink="/events" routerLinkActive="selected">Events</a>
+    </li>
+    <li *ngIf="'siteMap' | featureFlag">
+      <a (click)="closeNavOnLinkClick()" routerLink="/site-map" routerLinkActive="selected">Site map</a>
+    </li>
   </ul>
 
-  <a *ngIf="'accessibility' | featureFlag" class="a11y-link" routerLink="/accessibility">
+  <a *ngIf="'accessibility' | featureFlag" class="a11y-link" routerLink="/accessibility" (click)="closeNavOnLinkClick()">
     <span class="label">Accessibility</span>
     <span class="material-symbols-outlined">accessibility_new</span>
   </a>
-
 </nav>

@@ -23,6 +23,11 @@
         </article>
       </li>
     </ul>
-    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [pageSize]="pageSize" (pageChange)="onPageChange($event)"></app-pagination>
+    <app-pagination
+    [currentPage]="1"
+    [totalPages]="getTotalPages()"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+
   }
  </section>

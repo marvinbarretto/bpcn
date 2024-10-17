@@ -1,9 +1,8 @@
 
 
-<div class="hero">
-
-</div>
-<h1>Welcome to the BPCN</h1>
+<section class="hero" *ngIf="'homepageHero' | featureFlag">
+  <h1>Welcome to the BPCN</h1>
+</section>
 
 @if (!authStore.isAuthenticated()) {
   <div class="promote-event" >
@@ -14,10 +13,8 @@
   </div>
 }
 
-
-<!-- TODO: Make a news component, for now, lets display in here -->
- <section class="news">
+ <section class="news-widget" *ngIf="'homepageNewsWidget' | featureFlag">
   <h2>News</h2>
-  <p>display a little bit of news here</p>
+  <p>...</p>
  </section>
 

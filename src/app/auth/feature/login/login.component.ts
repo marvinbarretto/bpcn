@@ -12,10 +12,10 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   authStore = inject(AuthStore);
+  identifier!: string;
+  password!: string;
 
-  identifier = '';
-  password = '';
-
+  // TODO: Sort out error handling
   onLogin() {
     if (this.identifier && this.password) {
       this.authStore.login(this.identifier, this.password);

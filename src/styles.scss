@@ -23,3 +23,12 @@ body {
 h1 {
   font-size: 2rem;
 }
+
+
+.nav-open {
+  overflow: hidden; // Disable scrolling when menu is open
+}
+
+.hidden {
+  display: none;
+}

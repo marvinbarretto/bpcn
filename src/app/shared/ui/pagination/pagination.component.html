@@ -2,7 +2,10 @@
   <p>Page <b>{{ currentPage }}</b> of <b>{{ totalPages }}</b></p>
 
   <div class="buttons">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">&#x2190; Previous</button>
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span>Previous</span>
+    </button>
 
     <!-- Loop through all page numbers and render buttons for each -->
     <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
@@ -15,7 +18,10 @@
       </button>
     </ng-container>
 
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next &#x2192;</button>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      <span>Next</span>
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </button>
   </div>
 
 </nav>

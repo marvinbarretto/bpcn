@@ -5,8 +5,14 @@
   background-color: #CCC;
   color: #333;
   padding: .5rem;
-  font-size: .75rem;
+  font-size: 1rem;
+  min-height: 52px;
+}
+
+nav, .user-info__details {
+  display: flex;
   gap: .5rem;
+  align-items: center;
 }
 
 a {
@@ -18,8 +24,10 @@ a:hover {
 }
 
 button {
-  border: solid 1px black;
-  padding: 3px;
+  background-color: black;
+  color: white;
+  padding: .5rem 1rem;
+  font-size: 1rem;
 }
 
 .role {
