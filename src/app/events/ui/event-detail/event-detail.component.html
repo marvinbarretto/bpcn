@@ -6,8 +6,10 @@
 </div>
 <article class="event" *ngIf="event() as event; else noEvent">
 
-
   <h1>{{ event.title }}</h1>
+
+  <img [src]="assetPath + (event.hero?.url || '')" [alt]="event.hero?.alternativeText || ''" />
+
   <div class="event__metadata">
     <p><strong>Date:</strong> {{ formatEventDate(event.date) }}</p>
     <p *ngIf="event.location"><strong>Location:</strong> {{ event.location }}</p>

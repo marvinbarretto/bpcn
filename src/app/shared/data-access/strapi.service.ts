@@ -9,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class StrapiService {
   private http = inject(HttpClient);
-  private baseUrl = environment.strapiUrl;
+  private baseUrl = `${environment.strapiUrl}/api`;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object

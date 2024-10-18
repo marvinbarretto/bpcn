@@ -1,3 +1,6 @@
+import { Hero } from "../../shared/utils/image.model"
+import { Seo } from "../../shared/utils/seo.model"
+
 export interface IEventsRequest {
   data: IEvent
 }
@@ -25,7 +28,8 @@ export interface IEvent {
   content: IEventContentBlock[]
   date: string
   eventStatus: EventStatus
-
+  hero?: Hero
+  seo?: Seo
   location?: string
   id?: number
   documentId?: string

@@ -4,6 +4,7 @@ import { EventStore } from '../../data-access/event.store';
 import { inject } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 import { IEventContentBlock } from '../../utils/event.model';
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'app-event-detail',
@@ -21,6 +22,8 @@ export class EventDetailComponent {
   event = this.eventStore.currentEvent$$;
   loading = this.eventStore.loading$$;
   error = this.eventStore.error$$;
+
+  assetPath = environment.strapiUrl;
 
   constructor(
 
