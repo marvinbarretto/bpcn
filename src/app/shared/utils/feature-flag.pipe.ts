@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { FeatureFlagService } from '../data-access/feature-flag.service';
-import { environment } from '../../environment';
+import { environment } from '../../../environments/environment';
 @Pipe({
   name: 'featureFlag',
   standalone: true

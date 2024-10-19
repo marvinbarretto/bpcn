@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { catchError,  Observable, throwError } from 'rxjs';
-import { environment } from '../../environment';
+import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({

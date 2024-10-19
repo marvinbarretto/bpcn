@@ -4,7 +4,7 @@ import { EventStore } from '../../data-access/event.store';
 import { inject } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 import { IEventContentBlock } from '../../utils/event.model';
-import { environment } from '../../../environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-event-detail',
