@@ -15,7 +15,7 @@ export class StrapiService {
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject('INITIAL_ENV') private initialEnv: any
   ) {
-    this.baseUrl = `${initialEnv.strapiUrl}/api`;
+    this.baseUrl = `${this.initialEnv.strapiUrl}/api`;
   }
 
   getStrapiUrl() {
