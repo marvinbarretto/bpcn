@@ -9,11 +9,22 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class StrapiService {
   private http = inject(HttpClient);
-  private baseUrl = `${environment.strapiUrl}/api`;
+  private baseUrl: string;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject('INITIAL_ENV') private initialEnv: any
+  ) {
+    this.baseUrl = `${initialEnv.strapiUrl}/api`;
+  }
+
+  getStrapiUrl() {
+    return this.initialEnv.strapiUrl;
+  }
+
+  getStrapiToken() {
+    return this.initialEnv.strapiToken;
+  }
 
   private getAuthToken() {
     if (isPlatformBrowser(this.platformId)) {
@@ -24,14 +35,14 @@ export class StrapiService {
 
   // TODO: Replace with interceptor, make use of HttpClient
   protected getGetHeaders(): HttpHeaders {
-    const token = this.getAuthToken() || environment.strapiToken;
+    const token = this.getAuthToken() || this.getStrapiToken();
     return new HttpHeaders({
       Authorization: `Bearer ${token}`
     })
   }
 
   protected getPostHeaders(): HttpHeaders {
-    const token = this.getAuthToken() || environment.strapiToken;
+    const token = this.getAuthToken() || this.getStrapiToken();
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'

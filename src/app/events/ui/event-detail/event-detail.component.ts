@@ -25,12 +25,8 @@ export class EventDetailComponent {
 
   assetPath = environment.strapiUrl;
 
-  constructor(
+  // TODO: The page title should be dynamic based on the event title
 
-
-  ) {
-
-  }
 
   ngOnInit() {
     const slug = this.route.snapshot.paramMap.get('slug');
