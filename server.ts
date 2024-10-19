@@ -4,7 +4,6 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
-import { provideClientHydration } from '@angular/platform-browser';
 import compression from 'compression';
 import dotenv from 'dotenv';
 import axios from 'axios';
@@ -128,7 +127,7 @@ app.get('**', (req, res, next) => {
       publicPath: browserDistFolder,
       providers: [
         { provide: APP_BASE_HREF, useValue: baseUrl },
-        { provide: 'environment', useValue: environment },
+        { provide: 'INITIAL_ENV', useValue: environment },
       ],
     })
     .then((html) => res.send(html))
