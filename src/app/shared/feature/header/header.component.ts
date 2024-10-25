@@ -1,7 +1,7 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { PageStore } from '../../../pages/data-access/page.store';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs';
 import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
 
@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     public pageStore: PageStore,
     private elementRef: ElementRef,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit() {
@@ -43,27 +44,29 @@ export class HeaderComponent implements OnInit {
 
   // Check viewport size and adjust isMobile and isNavOpen accordingly
   private checkViewportSize() {
-    const isCurrentlyMobile = window.innerWidth <= this.DESKTOP_BREAKPOINT;
+    if (isPlatformBrowser(this.platformId)) {
+      const isCurrentlyMobile = window.innerWidth <= this.DESKTOP_BREAKPOINT;
 
-    // If switching from desktop to mobile, close the nav
-    if (isCurrentlyMobile && !this.isMobile) {
-      this.isNavOpen = false;  // Hide nav when switching to mobile
-      console.log('Switched to mobile: Nav is closed');
+      // If switching from desktop to mobile, close the nav
+      if (isCurrentlyMobile && !this.isMobile) {
+        this.isNavOpen = false;  // Hide nav when switching to mobile
+        console.log('Switched to mobile: Nav is closed');
+      }
+
+      // If switching from mobile to desktop, always show the nav
+      if (!isCurrentlyMobile) {
+        this.isNavOpen = true;   // Ensure nav is open on desktop
+        console.log('Switched to desktop: Nav is open');
+      }
+
+      this.isMobile = isCurrentlyMobile;  // Update the isMobile flag
+      console.log(`Viewport isMobile: ${this.isMobile}`);
     }
-
-    // If switching from mobile to desktop, always show the nav
-    if (!isCurrentlyMobile) {
-      this.isNavOpen = true;   // Ensure nav is open on desktop
-      console.log('Switched to desktop: Nav is open');
-    }
-
-    this.isMobile = isCurrentlyMobile;  // Update the isMobile flag
-    console.log(`Viewport isMobile: ${this.isMobile}`);
   }
 
   // Method to toggle the mobile navigation
   toggleMobileNavigation() {
-    if (this.isMobile) {
+    if (this.isMobile && isPlatformBrowser(this.platformId)) {
       this.isNavOpen = !this.isNavOpen;
 
       // Add or remove the class on the root <html> element based on nav state
@@ -82,7 +85,7 @@ export class HeaderComponent implements OnInit {
   // Close the nav when a user clicks outside of it
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
-    if (this.isMobile && this.isNavOpen && !this.elementRef.nativeElement.contains(event.target)) {
+    if (this.isMobile && this.isNavOpen && !this.elementRef.nativeElement.contains(event.target) && isPlatformBrowser(this.platformId)) {
       this.isNavOpen = false;
       document.body.classList.remove('no-scroll');  // Re-enable scrolling when the nav is closed
 
@@ -93,7 +96,7 @@ export class HeaderComponent implements OnInit {
   // Close the nav when a menu link is clicked
   closeNavOnLinkClick() {
     console.log('Link clicked');
-    if (this.isMobile) {
+    if (this.isMobile && this.isNavOpen && isPlatformBrowser(this.platformId)) {
       this.isNavOpen = false;
       document.body.classList.remove('no-scroll');  // Re-enable scrolling when the nav is closed
 
@@ -107,7 +110,7 @@ export class HeaderComponent implements OnInit {
     this.checkViewportSize();
 
     // If resizing to desktop, re-enable scrolling if it was disabled
-    if (!this.isMobile && document.body.classList.contains('no-scroll')) {
+    if (!this.isMobile && document.body.classList.contains('no-scroll') && isPlatformBrowser(this.platformId)) {
       document.body.classList.remove('no-scroll');
       console.log('Resized to desktop: Scrolling enabled');
     }
