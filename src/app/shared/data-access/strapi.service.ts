@@ -41,13 +41,13 @@ export class StrapiService {
 
   get<T>(endpoint: string): Observable<T> {
     const headers = this.getGetHeaders();
-    return this.http.get<T>(`${this.baseUrl}/${endpoint}`, { headers })
+    return this.http.get<T>(`${this.baseUrl}/api/${endpoint}`, { headers })
       .pipe(catchError(this.handleError));
   }
 
   post<T>(endpoint: string, body: any): Observable<T> {
     const headers = this.getPostHeaders();
-    return this.http.post<T>(`${this.baseUrl}/${endpoint}`, body, { headers })
+    return this.http.post<T>(`${this.baseUrl}/api/${endpoint}`, body, { headers })
       .pipe(catchError(this.handleError));
   }
 
