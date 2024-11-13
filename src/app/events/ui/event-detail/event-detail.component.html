@@ -6,17 +6,18 @@
 </div>
 <article class="event" *ngIf="event() as event; else noEvent">
 
-
   <h1>{{ event.title }}</h1>
+
+  <!-- TODO: Look at picture element and serving different sizes -->
+  <img [src]="assetPath + (event.hero?.url || '')" [alt]="event.hero?.alternativeText || ''" />
+
   <div class="event__metadata">
     <p><strong>Date:</strong> {{ formatEventDate(event.date) }}</p>
     <p *ngIf="event.location"><strong>Location:</strong> {{ event.location }}</p>
   </div>
 
-  <!-- Event content rendering -->
   <div class="event__content" *ngFor="let block of event.content">
 
-    <!-- Render a heading -->
     <ng-container *ngIf="block.type === 'heading' && block.children!.length > 0">
       <h2>
         <ng-container *ngFor="let child of block.children!">
@@ -25,11 +26,10 @@
       </h2>
     </ng-container>
 
-    <!-- Render a paragraph, trimming empty children -->
     <ng-container *ngIf="block.type === 'paragraph' && hasContent(block)">
       <p>
         <ng-container *ngFor="let child of block.children">
-          <!-- Conditionally apply formatting (bold, italic) -->
+          <!-- TODO: Check this -->
           <span
             [ngClass]="{
               'bold': child.bold,
@@ -40,9 +40,7 @@
         </ng-container>
       </p>
     </ng-container>
-
   </div>
-
 </article>
 
 

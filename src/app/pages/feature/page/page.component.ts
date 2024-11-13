@@ -22,6 +22,11 @@ export class PageComponent implements OnInit, OnDestroy {
     public pageStore: PageStore,
     private titleService: PageTitleService
   ) {
+
+
+    console.log('Page ->' , this.pageStore.primaryNavLinksComputed$$());
+
+
     effect(() => {
       const pageData = this.pageStore.page$$();
       if (pageData && pageData.title) {

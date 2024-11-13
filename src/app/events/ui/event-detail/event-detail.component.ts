@@ -4,6 +4,7 @@ import { EventStore } from '../../data-access/event.store';
 import { inject } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 import { IEventContentBlock } from '../../utils/event.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-event-detail',
@@ -22,12 +23,10 @@ export class EventDetailComponent {
   loading = this.eventStore.loading$$;
   error = this.eventStore.error$$;
 
-  constructor(
+  assetPath = 'http://localhost:1337'; // FIXME: This is a temporary fix to allow the app to build. We need to find a better way to handle this.
 
+  // TODO: The page title should be dynamic based on the event title
 
-  ) {
-
-  }
 
   ngOnInit() {
     const slug = this.route.snapshot.paramMap.get('slug');

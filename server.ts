@@ -4,7 +4,6 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
-import { provideClientHydration } from '@angular/platform-browser';
 import compression from 'compression';
 import dotenv from 'dotenv';
 import axios from 'axios';
@@ -28,6 +27,7 @@ const connectRedis = async () => {
     console.log('Redis client connected');
   } catch (err) {
     console.error('Error connecting to Redis:', err);
+    setTimeout(connectRedis, 5000);
   }
 };
 
@@ -112,6 +112,13 @@ app.get('**', express.static(browserDistFolder, {
 app.get('**', (req, res, next) => {
   const { protocol, originalUrl, baseUrl, headers } = req;
 
+  const environment = {
+    strapiUrl: process.env['STRAPI_URL'] || 'http://localhost:1337',
+    strapiToken: process.env['STRAPI_TOKEN'] || '',
+    meiliSearchUrl: process.env['MEILISEARCH_URL'] || 'http://localhost:7700',
+    meiliSearchKey: process.env['MEILISEARCH_KEY'] || ''
+  }
+
   commonEngine
     .render({
       bootstrap,
@@ -120,6 +127,7 @@ app.get('**', (req, res, next) => {
       publicPath: browserDistFolder,
       providers: [
         { provide: APP_BASE_HREF, useValue: baseUrl },
+        { provide: 'INITIAL_ENV', useValue: environment },
       ],
     })
     .then((html) => res.send(html))

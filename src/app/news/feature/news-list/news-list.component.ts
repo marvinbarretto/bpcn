@@ -21,7 +21,10 @@ export class NewsListComponent {
   errorMessage: string | null = null;
   isLoading = true;
 
-
+  // TODO: Fix this to use the new PaginationService
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 0;
   sortDescending = true;
 
   constructor(
@@ -31,10 +34,6 @@ export class NewsListComponent {
 
   ngOnInit() {
     this.fetchNews();
-  }
-
-  getTotalPages() {
-    return this.paginationService.getTotalPages(this.news.length, 10);
   }
 
   fetchNews() {
@@ -51,28 +50,22 @@ export class NewsListComponent {
         this.news = news;
         this.isLoading = false;
 
-        this.updatePaginatedNews(1);
+        this.totalPages = this.paginationService.getTotalPages(this.news.length, this.pageSize);
+        this.updatePaginatedNews();
       });
   }
 
-  // Update paginated news when the page changes
-  updatePaginatedNews(page: number) {
-    const pageSize = 10; // Default page size (can be customized)
-    this.paginatedNews = this.paginationService.paginate(
-      this.news,
-      page,
-      pageSize,
-      this.sortDescending ? this.sortByDateDesc : undefined
-    );
+  updatePaginatedNews() {
+    this.paginatedNews = this.paginationService.paginate(this.news, this.currentPage, this.pageSize, this.sortDescending ? this.sortByDateDesc : undefined);
   }
 
   sortByDateDesc(a: NewsSnippet, b: NewsSnippet): number {
     return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
   }
 
-  // When the PaginationComponent emits a page change event
   onPageChange(page: number) {
-    this.updatePaginatedNews(page);
+    this.currentPage = page;
+    this.updatePaginatedNews();
   }
 
   getDate(dateString: string): Date {

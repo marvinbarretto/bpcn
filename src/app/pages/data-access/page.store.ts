@@ -24,11 +24,14 @@ export class PageStore {
   primaryNavLinksComputed$$ = computed(() => this.primaryNavLinks$$());
 
 
+
   getPageBySlug(slug: string) {
     return computed(() => this.pages$$().find(p => p.slug === slug));
   }
 
-  constructor(private pageService: PageService) {}
+  constructor(private pageService: PageService) {
+
+  }
 
 
   // TODO: 1. set HTTP Cache-Control Headers on Strapi for a day 86400
@@ -44,6 +47,10 @@ export class PageStore {
 
     this.pageService.getPrimaryNavPageLinks().pipe(
       tap( pages => {
+        console.log('%cAPI response:', 'color: orange');
+        console.log(pages);  // Check if pages contain valid slugs
+
+
         this.primaryNavLinks$$.set(pages);
         console.log('%cPrimary navigation pages loaded:', 'color: green');
         console.log(pages);  // Output the fetched pages after loading
@@ -56,8 +63,6 @@ export class PageStore {
         return of([]);
       })
     ).subscribe();
-
-
   }
 
   loadPage(slug: string) {

@@ -2,7 +2,7 @@ import { Inject, Injectable, PLATFORM_ID, signal } from "@angular/core";
 import { User } from "../../users/utils/user.model";
 import { AuthService } from "./auth.service";
 import { of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, take } from 'rxjs/operators';
 import { AuthResponse, RegisterPayload } from "../utils/auth.model";
 import { Router } from "@angular/router";
 import { UserService } from "../../users/data-access/user.service";
@@ -50,7 +50,8 @@ export class AuthStore {
         this.error$$.set(`Login failed ${error}`);
         this.loading$$.set(false);
         return of(null);
-      })
+      }),
+      take(1)
     ).subscribe();
   }
 
@@ -77,7 +78,8 @@ export class AuthStore {
         this.error$$.set(`Login failed ${error}`);
         this.loading$$.set(false);
         return of(null);
-      })
+      }),
+      take(1)
     ).subscribe();
   }
 

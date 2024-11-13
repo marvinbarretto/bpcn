@@ -9,6 +9,8 @@ import { IEvent, IEventsResponse, IEventsRequest } from '../utils/event.model';
 export class EventService extends StrapiService {
 
   getEvents(): Observable<IEvent[]> {
+    // TODO: REthink strategy, i think probably we should
+    // just use the getEvent() method to get everything instead of populating with all here...
     return this.get<IEventsResponse>('events')
       .pipe(
         map(response => response.data),
@@ -17,7 +19,7 @@ export class EventService extends StrapiService {
   }
 
   getEvent(documentId: string): Observable<IEvent> {
-    return this.get<{ data: IEvent }>(`events/${documentId}`)
+    return this.get<{ data: IEvent }>(`events/${documentId}?populate=*`)
       .pipe(
         map(response => response.data),
         catchError(this.handleError)

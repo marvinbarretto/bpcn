@@ -28,7 +28,7 @@ export class EventStore {
       }),
       catchError((error) => {
         console.log('Error loading events:', error);
-        this.error$$.set(`Failed to load events. ${error}`);
+        this.error$$.set(`Failed to load events. ${error.message}`);
         this.loading$$.set(false);
         return of([]);
       })

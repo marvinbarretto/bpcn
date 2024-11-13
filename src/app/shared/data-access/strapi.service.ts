@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { catchError,  Observable, throwError } from 'rxjs';
-import { environment } from '../../environment';
-
+import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -13,8 +12,16 @@ export class StrapiService {
   private baseUrl = environment.strapiUrl;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {}
+
+  getStrapiUrl() {
+    return environment.strapiUrl;
+  }
+
+  getStrapiToken() {
+    return environment.strapiToken;
+  }
 
   private getAuthToken() {
     if (isPlatformBrowser(this.platformId)) {
@@ -25,14 +32,14 @@ export class StrapiService {
 
   // TODO: Replace with interceptor, make use of HttpClient
   protected getGetHeaders(): HttpHeaders {
-    const token = this.getAuthToken() || environment.strapiToken;
+    const token = this.getAuthToken() || this.getStrapiToken();
     return new HttpHeaders({
       Authorization: `Bearer ${token}`
     })
   }
 
   protected getPostHeaders(): HttpHeaders {
-    const token = this.getAuthToken() || environment.strapiToken;
+    const token = this.getAuthToken() || this.getStrapiToken();
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -52,7 +59,21 @@ export class StrapiService {
   }
 
   protected handleError(error: any): Observable<never> {
-    console.error('StrapiService error:', error);
+    let errorMessage = 'An unknown error occurred';
+
+    if ( error.error instanceof ErrorEvent ) {
+      errorMessage = `Client error: ${error.error.message}`;
+    } else {
+      errorMessage = `Server error: ${error.status} - ${error.statusText}`;
+
+      // Indlude strapi specific error messages
+      if (error.error.message) {
+        errorMessage += ` - ${error.error.message}`;
+      }
+    }
+
+    console.error('StrapiService error:', errorMessage, error);
+
     return throwError(() => new Error('StrapiService error'));
   }
 }

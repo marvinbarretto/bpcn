@@ -43,8 +43,6 @@ Thumbs.db
 
 # Environment
 .env
-environment.ts
-environment.prod.ts
 
 # Local MeiliSearch files
 search/

@@ -14,6 +14,4 @@ import { FeatureFlagPipe } from '../../../shared/utils/feature-flag.pipe';
 })
 export class HomeComponent {
   authStore = inject(AuthStore);
-
-
 }

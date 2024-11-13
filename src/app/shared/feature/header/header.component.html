@@ -18,7 +18,6 @@
       <a [routerLink]="['/', link.slug]" routerLinkActive="selected"
         (click)="closeNavOnLinkClick()"
         [routerLinkActiveOptions]="{ exact: true }">{{ link.title }}</a>
-        <span>{{ link.slug }}</span>
     </li>
 
     <li *ngIf="'news' | featureFlag">
