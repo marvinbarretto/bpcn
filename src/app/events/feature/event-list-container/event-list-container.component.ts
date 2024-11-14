@@ -7,11 +7,12 @@ import { AuthStore } from '../../../auth/data-access/auth.store';
 import { EventStatus } from '../../utils/event.model';
 import { EventListComponent } from '../../ui/event-list/event-list.component';
 import { ActivatedRoute } from '@angular/router';
+import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 
 @Component({
   selector: 'app-event-list-container',
   standalone: true,
-  imports: [CommonModule, RouterModule, EventListComponent],
+  imports: [CommonModule, RouterModule, EventListComponent, HeroComponent],
   templateUrl: './event-list-container.component.html',
   styleUrl: './event-list-container.component.scss'
 })

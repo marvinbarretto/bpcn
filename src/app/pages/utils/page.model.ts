@@ -5,6 +5,7 @@ export interface Page {
   content: any[];
   parentPage?: Page;
   primaryNavigation?: boolean;
+  heroImageUrl?: string;
 }
 
 export interface PageResponse {

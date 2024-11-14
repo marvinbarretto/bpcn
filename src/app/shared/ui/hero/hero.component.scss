@@ -1,0 +1,20 @@
+/* hero.component.scss */
+.hero {
+  background-color: #666;
+  padding: 1rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.hero__text {
+  // TODO: Scalable heading fontsize, check on mob
+}
+
+.title {
+  display: inline;
+  color: #333; // TODO: Get from the vars
+  background-color: white;
+  padding: 2px 1rem;
+
+}

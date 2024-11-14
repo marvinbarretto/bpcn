@@ -4,12 +4,12 @@ import { EventStore } from '../../data-access/event.store';
 import { inject } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 import { IEventContentBlock } from '../../utils/event.model';
-import { environment } from '../../../../environments/environment';
+import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeroComponent],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
 })

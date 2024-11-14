@@ -8,10 +8,11 @@ import { PaginationService } from '../../../shared/data-access/pagination.servic
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../shared/ui/pagination/pagination.component';
 import { DateComponent } from '../../../shared/ui/date/date.component';
+import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 @Component({
   selector: 'app-news-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent, DateComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent, DateComponent, HeroComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.scss'
 })

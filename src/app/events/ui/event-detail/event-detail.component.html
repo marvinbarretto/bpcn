@@ -6,7 +6,7 @@
 </div>
 <article class="event" *ngIf="event() as event; else noEvent">
 
-  <h1>{{ event.title }}</h1>
+  <app-hero [title]="event.title"></app-hero>
 
   <!-- TODO: Look at picture element and serving different sizes -->
   <img [src]="assetPath + (event.hero?.url || '')" [alt]="event.hero?.alternativeText || ''" />

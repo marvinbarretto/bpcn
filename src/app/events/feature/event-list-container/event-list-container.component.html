@@ -2,12 +2,10 @@
 <!-- TODO: Pagination -->
 
 <div class="container container--{{ filterStatus.toLowerCase() }}">
-  <h2>
-    @if (filterStatus === EventStatus.PENDING) {
-      Pending
-    }
-    Events
-  </h2>
+  <app-hero
+    [headingLevel]="'h2'"
+    [title]="filterStatus === EventStatus.PENDING ? 'Pending Events' : 'Events'">
+  </app-hero>
 
   <div class="actions">
     @if (authStore.canCreateEvent()) {

@@ -6,11 +6,12 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { Page } from '../../utils/page.model';
 import { PageTitleService } from '../../../shared/data-access/page-title.service';
 import { Subscription } from 'rxjs';
+import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 
 @Component({
   selector: 'app-page',
   standalone: true,
-  imports: [CommonModule, JsonPipe],
+  imports: [CommonModule, JsonPipe, HeroComponent],
   templateUrl: './page.component.html',
   styleUrl: './page.component.scss'
 })
