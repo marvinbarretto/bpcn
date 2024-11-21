@@ -1,12 +1,17 @@
 .event {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin: 1rem auto;
-  max-width: 50ch; // TODO: Set this as a variable
+  // gap: 1rem;
+  // margin: 1rem auto;
+  // max-width: 50ch; // TODO: Set this as a variable
 }
 
 .event__metadata {
   padding: 1rem;
   background-color: rgba(black, .1);
+}
+
+.event__content {
+  padding: 1rem;
+  background-color: rgba(black, .05);
 }

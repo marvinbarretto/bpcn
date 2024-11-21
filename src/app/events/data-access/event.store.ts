@@ -1,6 +1,6 @@
 import { Injectable, signal } from "@angular/core";
 import { of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, finalize } from 'rxjs/operators';
 import { IEvent } from "../utils/event.model";
 import { EventService } from "./event.service";
 
@@ -35,6 +35,30 @@ export class EventStore {
     ).subscribe();
   }
 
+
+  loadUpcomingEvents() {
+    console.log('Loading upcoming events from server...');
+    this.loading$$.set(true);
+    this.error$$.set(null);
+
+    this.eventService.getUpcomingEvents().pipe(
+      tap((events: IEvent[]) => {
+        console.log('Upcoming events loaded from server:', events);
+        this.events$$.set(events);
+        this.loading$$.set(false);
+      }),
+      catchError((error) => {
+        console.log('Error loading upcoming events:', error);
+        this.error$$.set(`Failed to load upcoming events. ${error.message}`);
+        this.loading$$.set(false);
+        return of([]);
+      })
+    ).subscribe();
+  }
+
+  loadAllEvents() {
+  }
+
   createEvent(newEvent: IEvent) {
     console.log('Creating a new event...');
     this.loading$$.set(true);
@@ -67,20 +91,31 @@ export class EventStore {
 
 
 
-  // Select an event by slug, if not found in store, fetch from service by documentId
+  /**
+   * Select an event by slug, if not found in store, fetch from service by documentId
+   * @param slug
+   */
   selectEventBySlug(slug: string) {
     console.log(`Checking if event with slug "${slug}" exists in store...`);
-    // Try to find the event in the events$$ store
-    const event = this.events$$().find(event => event.slug === slug);
+    const event = this.events$$().find(e => e.slug === slug);
 
     if (event) {
       console.log(`Event found in store for slug "${slug}":`, event);
-      this.currentEvent$$.set(event);
+
+      // Check if the event is incomplete (e.g., missing `hero`, `content`, etc.)
+      if (!event.hero || !event.content) {
+        console.log(`Event with slug "${slug}" is incomplete. Fetching full details...`);
+        this.fetchEventByDocumentId(event.documentId!);
+      } else {
+        console.log(`Event with slug "${slug}" is complete. Setting as current event.`);
+        this.currentEvent$$.set(event); // Use the existing event if it's complete
+      }
     } else {
       console.log(`Event not found in store for slug "${slug}". Fetching from server...`);
-      this.fetchEventBySlug(slug);
+      this.fetchEventBySlug(slug); // Fetch from server if not in the store
     }
   }
+
 
   // Fetch event from the service based on the slug (assumes you need the documentId)
   private fetchEventBySlug(slug: string) {
@@ -89,7 +124,7 @@ export class EventStore {
     this.loading$$.set(true);
 
     // FIXME: We should aim to call getEvent() singular
-    this.eventService.getEvents().pipe(
+    this.eventService.getAllEvents().pipe(
       tap((events: IEvent[]) => {
         // Find the event with the matching slug to get the documentId
         const event = events.find(event => event.slug === slug);
@@ -111,6 +146,9 @@ export class EventStore {
         this.error$$.set(`Failed to load event. ${error}`);
         this.loading$$.set(false);
         return of([]);
+      }),
+      finalize(() => {
+        this.loading$$.set(false);
       })
     ).subscribe();
   }
@@ -118,20 +156,24 @@ export class EventStore {
 
   // Fetch event by documentId
   private fetchEventByDocumentId(documentId: string) {
-    console.log(`Fetching event details from server using documentId "${documentId}"...`);
+    console.log(`Fetching full event details from server using documentId "${documentId}"...`);
 
     this.eventService.getEvent(documentId).pipe(
-      tap((event: IEvent) => {
-        console.log(`Event details loaded from server for documentId "${documentId}":`, event);
+      tap(fullEvent => {
+        console.log(`Full event details loaded from server for documentId "${documentId}":`, fullEvent);
 
-        this.currentEvent$$.set(event);
-        this.loading$$.set(false);
+        // Update the event in the store
+        const updatedEvents = this.events$$().map(event =>
+          event.documentId === documentId ? { ...event, ...fullEvent } : event
+        );
+        this.events$$.set(updatedEvents);
+
+        // Set the current event
+        this.currentEvent$$.set(fullEvent);
       }),
-      catchError((error) => {
-        console.log('Error loading event details:', error);
-
-        this.error$$.set(`Failed to load event details. ${error}`);
-        this.loading$$.set(false);
+      catchError(error => {
+        console.error('Error loading full event details:', error);
+        this.error$$.set('Failed to load event details.');
         return of(null);
       })
     ).subscribe();

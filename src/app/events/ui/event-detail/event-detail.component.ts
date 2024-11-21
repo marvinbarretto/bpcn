@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventStore } from '../../data-access/event.store';
 import { inject } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
-import { IEventContentBlock } from '../../utils/event.model';
+import { IEvent, IEventContentBlock } from '../../utils/event.model';
 import { HeroComponent } from '../../../shared/ui/hero/hero.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-event-detail',
@@ -18,7 +19,9 @@ export class EventDetailComponent {
   eventStore = inject(EventStore);
   route = inject(ActivatedRoute);
 
-  // Access the current event signal
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
+
   event = this.eventStore.currentEvent$$;
   loading = this.eventStore.loading$$;
   error = this.eventStore.error$$;
@@ -27,13 +30,28 @@ export class EventDetailComponent {
 
   // TODO: The page title should be dynamic based on the event title
 
+  getFullImageUrl(relativeUrl: string | undefined): string {
+    return relativeUrl ? `${this.assetPath}${relativeUrl}` : '';
+  }
 
   ngOnInit() {
     const slug = this.route.snapshot.paramMap.get('slug');
     if (slug) {
-      console.log('loading event by slug', slug);
+      console.log('Loading event by slug:', slug);
       this.eventStore.selectEventBySlug(slug);
     }
+
+
+  }
+
+  constructor() {
+    // Update meta tags when the event signal changes
+    effect(() => {
+      const currentEvent = this.event(); // React to changes in the `currentEvent$$` signal
+      if (currentEvent) {
+        this.updateMetaTags(currentEvent);
+      }
+    });
   }
 
   // Helper method to format date
@@ -44,12 +62,50 @@ export class EventDetailComponent {
 
   // Check if the block has any meaningful content
   hasContent(block: IEventContentBlock): boolean {
-    return block.children.some((child) => child.text.trim().length > 0);
+    return block.children.some(child => child.text?.trim().length > 0);
   }
+
 
   ngOnDestroy() {
     // Optionally clear the selected event when leaving the component
     this.eventStore.clearCurrentEvent();
   }
+
+
+  renderBlockText(block: IEventContentBlock): string {
+    return block.children?.map(child => child.text).join(' ') || '';
+  }
+
+  shareEvent() {
+    // Implement sharing logic, e.g., via navigator.share() API
+    console.log('Sharing event...');
+  }
+
+  printEvent() {
+    window.print();
+  }
+
+  addToCalendar(event: IEvent) {
+    // Implement calendar addition logic
+    console.log('Adding event to calendar:', event);
+  }
+
+  updateMetaTags(event: IEvent) {
+    console.log('Updating meta tags for event:', event);
+
+    if (event.seo) {
+      this.titleService.setTitle(event.seo.metaTitle || event.title);
+
+      const metaDescription = event.seo.metaDescription || `Details about ${event.title}`;
+      const keywords = event.seo.keywords || '';
+
+      this.metaService.updateTag({ name: 'description', content: metaDescription });
+      this.metaService.updateTag({ name: 'keywords', content: keywords });
+    } else {
+      console.warn('No SEO data found for this event.');
+    }
+  }
+
+
 
 }

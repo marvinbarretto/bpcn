@@ -1,20 +1,51 @@
-/* hero.component.scss */
 .hero {
-  background-color: #666;
   padding: 1rem;
-  min-height: 200px;
+  min-height: 300px;
+  max-height: 50vh;
   display: flex;
   flex-direction: column-reverse;
+
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: 16/9;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    aspect-ratio: 4 / 3; // Adjust ratio for mobile
+  }
 }
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.3)
+  );
+  z-index: 0; // Place it behind the text
+}
+
+
+
 
 .hero__text {
-  // TODO: Scalable heading fontsize, check on mob
+  position: relative;
+  z-index: 1;
+
 }
 
-.title {
-  display: inline;
-  color: #333; // TODO: Get from the vars
-  background-color: white;
-  padding: 2px 1rem;
 
+.title {
+  $indent: 0.5rem;
+  line-height: 1;
+  color: #fff;
+  display: inline-block;
+  background-color: rgba(black, .2);
+  padding: $indent;
+  margin-left: -$indent;
 }

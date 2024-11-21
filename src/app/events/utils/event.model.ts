@@ -12,6 +12,7 @@ export interface IEventsResponse {
 
 export interface IEventContentBlock {
   type: string
+  level: number
   children: IEventContentBlockChild[]
 }
 

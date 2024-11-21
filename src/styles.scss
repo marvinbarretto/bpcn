@@ -31,3 +31,26 @@ h1 {
 .hidden {
   display: none;
 }
+
+// This should be universal across the site where we want content limited to a max width
+.content {
+  width: 100%;
+  max-width: 65ch;
+  // border: dotted 1px red;
+  margin: 0 auto;
+}
+
+
+article .event__content {
+  h2, h3, h4 {
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

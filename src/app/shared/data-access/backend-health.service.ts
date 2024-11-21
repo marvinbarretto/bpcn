@@ -28,6 +28,7 @@ export class BackendHealthService {
     this.checkHeath();
     setInterval(() => this.checkHeath(), 30000);
     // TODO: Make this 30000 configurable
+    // TODO: Make this whole fucntionality optional as it might be expensive?
   }
 
 }

@@ -1,64 +1,63 @@
-<div *ngIf="loading()">
-  <p>Loading event...</p>
-</div>
-<div *ngIf="error()">
-  <p>{{ error() }}</p>
-</div>
-<article class="event" *ngIf="event() as event; else noEvent">
-
-  <app-hero [title]="event.title"></app-hero>
-
-  <!-- TODO: Look at picture element and serving different sizes -->
-  <img [src]="assetPath + (event.hero?.url || '')" [alt]="event.hero?.alternativeText || ''" />
+<article class="event" *ngIf="event() as event; else loading">
+  <app-hero
+    [title]="event.title"
+    [cssClass]="'event__hero'"
+    [backgroundImage]="getFullImageUrl(event.hero?.url)"
+  >
+  </app-hero>
 
   <div class="event__metadata">
-    <p><strong>Date:</strong> {{ formatEventDate(event.date) }}</p>
-    <p *ngIf="event.location"><strong>Location:</strong> {{ event.location }}</p>
+    <div class="content">
+      <p><strong>Date:</strong> {{ formatEventDate(event.date) }}</p>
+      <p *ngIf="event.location"><strong>Location:</strong> {{ event.location }}</p>
+    </div>
   </div>
 
-  <div class="event__content" *ngFor="let block of event.content">
+  <div class="event__content">
+    <div class="content">
+      <ng-container *ngFor="let block of event.content || []">
 
-    <ng-container *ngIf="block.type === 'heading' && block.children!.length > 0">
-      <h2>
-        <ng-container *ngFor="let child of block.children!">
-          {{ child.text }}
+        <!-- Render Headings -->
+        <ng-container *ngIf="block.type === 'heading'">
+          <ng-container [ngSwitch]="block.level">
+            <h2 *ngSwitchCase="1" class="event__heading">{{ renderBlockText(block) }}</h2>
+            <h3 *ngSwitchCase="2" class="event__heading">{{ renderBlockText(block) }}</h3>
+            <h4 *ngSwitchCase="3" class="event__heading">{{ renderBlockText(block) }}</h4>
+            <p *ngSwitchDefault class="event__heading">{{ renderBlockText(block) }}</p>
+          </ng-container>
         </ng-container>
-      </h2>
-    </ng-container>
 
-    <ng-container *ngIf="block.type === 'paragraph' && hasContent(block)">
-      <p>
-        <ng-container *ngFor="let child of block.children">
-          <!-- TODO: Check this -->
-          <span
-            [ngClass]="{
-              'bold': child.bold,
-              'italic': child.italic
-            }">
-            {{ child.text }}
-          </span>
+        <!-- Render Paragraphs -->
+        <ng-container *ngIf="block.type === 'paragraph'">
+          <p>
+            <ng-container *ngFor="let child of block.children || []">
+              <span
+                [ngClass]="{ 'bold': child.bold, 'italic': child.italic }">
+                {{ child.text }}
+              </span>
+            </ng-container>
+          </p>
         </ng-container>
-      </p>
-    </ng-container>
+
+      </ng-container>
+
+      <!--div class="event__actions">
+        Socials, print, add to calendar etc...
+        <button (click)="shareEvent()">Share</button>
+        <button (click)="printEvent()">Print</button>
+        <button (click)="addToCalendar(event)">Add to Calendar</button>
+      </div-->
+    </div>
+
   </div>
 </article>
+<!-- TODO: Bring this visual style to other pages -->
+
+<ng-template #loading>
+  <p>Loading event...</p>
+</ng-template>
 
 
 <ng-template #noEvent>
   <p>Event not found.</p>
 </ng-template>
-
-
-<!-- TODO: SEO for the event detail page -->
-<!-- TODO: Add a share button to the event detail page -->
-<!-- TODO: Add a print button to the event detail page -->
-<!-- TODO: Add a calendar button to the event detail page -->
-
-<!-- TODO: Add blurb to the event detail page -->
-<!-- TODO: Add image to the event detail page -->
-
-<!--TODO: Handle the case where the event has no content blocks-->
-
-
-<!-- Show a bit more content on the snippets, retreive an image too -->
- <!-- Use articles -->

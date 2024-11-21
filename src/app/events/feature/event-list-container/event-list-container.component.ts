@@ -22,7 +22,11 @@ export class EventListContainerComponent implements OnInit {
 
   EventStatus = EventStatus;
 
-  filteredEvents = computed(() => this.eventStore.events$$().filter((event) => event.eventStatus === this.filterStatus));
+  filteredEvents = computed(() =>
+    this.eventStore.events$$().filter(
+      (event) => event.eventStatus === this.filterStatus
+    )
+  );
 
   @Input() filterStatus: EventStatus = EventStatus.APPROVED;
   loading = this.eventStore.loading$$();
@@ -35,7 +39,7 @@ export class EventListContainerComponent implements OnInit {
       this.filterStatus = data['filterStatus'];
       if (this.eventStore.events$$().length === 0) {
         console.log('No events found in store, fetching from server...');
-        this.eventStore.loadEvents();
+        this.eventStore.loadUpcomingEvents();
       } else {
         console.log('Events already loaded in store, no need to fetch.');
       }
