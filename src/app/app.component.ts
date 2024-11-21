@@ -7,20 +7,27 @@ import { Title } from '@angular/platform-browser';
 import { filter, mergeMap } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { PageTitleService } from './shared/data-access/page-title.service';
+import { BackendHealthService } from './shared/data-access/backend-health.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, UserInfoComponent, HeaderComponent, FooterComponent],
+  imports: [RouterModule, UserInfoComponent, HeaderComponent, FooterComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  isBackendAvailable!: () => boolean;
+
   constructor(
     private titleService: PageTitleService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private backendHealthService: BackendHealthService
+  ) {
+    this.isBackendAvailable = this.backendHealthService.isStrapiAvailable$$;
+  }
   ngOnInit(): void {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),

@@ -1,4 +1,4 @@
-<section class="user-info">
+<section class="user-info" *ngIf="isBackendAvailable">
   @if (isLoggedIn) {
     <div class="user-info__details">
       <span>{{ username }}</span>

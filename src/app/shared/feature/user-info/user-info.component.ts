@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthStore } from '../../../auth/data-access/auth.store';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Roles } from '../../../auth/utils/roles.enum';
 import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
+import { BackendHealthService } from '../../data-access/backend-health.service';
 
 @Component({
   selector: 'app-user-info',
@@ -14,7 +15,13 @@ import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
 })
 export class UserInfoComponent {
   public Roles = Roles;
+  backendService = inject(BackendHealthService);
+
   constructor(public authStore: AuthStore) {}
+
+  get isBackendAvailable(): boolean {
+    return this.backendService.isStrapiAvailable$$();
+  }
 
   get isLoggedIn(): boolean {
     return !!this.authStore.token$$();

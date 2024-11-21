@@ -1,3 +1,11 @@
+
+<ng-container *ngIf="!isBackendAvailable()">
+  <div class="backend-warning">
+    <p>The backend service is currently unavailable. Some features may not work.</p>
+  </div>
+</ng-container>
+
+
 <div class="container">
   <header>
     <app-user-info></app-user-info>

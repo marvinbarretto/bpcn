@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { catchError,  Observable, throwError } from 'rxjs';
+import { catchError,  map,  Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -75,5 +75,12 @@ export class StrapiService {
     console.error('StrapiService error:', errorMessage, error);
 
     return throwError(() => new Error('StrapiService error'));
+  }
+
+  ping(): Observable<boolean> {
+    return this.http.get(`${this.baseUrl}/api/users-permissions/roles`).pipe(
+      map(() => true),
+      catchError( () => of(false) )
+    );
   }
 }
