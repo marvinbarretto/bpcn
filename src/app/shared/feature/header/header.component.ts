@@ -5,20 +5,23 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs';
 import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
 import { SearchComponent } from '../search/search.component';
+import { UserInfoComponent } from '../user-info/user-info.component';
+import { AccessibilityComponent } from "../accessibility/accessibility.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule, FeatureFlagPipe, SearchComponent],
+  imports: [RouterModule, CommonModule, FeatureFlagPipe, UserInfoComponent, SearchComponent, AccessibilityComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
-
+  isSearchOpen = false;
+  isAccessibilityOpen = false;
   isHomepage = false;
   isNavOpen = false;
   isMobile = false;
-  readonly DESKTOP_BREAKPOINT = 600
+  readonly DESKTOP_BREAKPOINT = 600 // TODO: Could this be stored somewhere better where more components can access it?
 
   constructor(
     private router: Router,
@@ -32,6 +35,15 @@ export class HeaderComponent implements OnInit {
     this.pageStore.loadPrimaryNavLinks();
     this.checkIfUserIsOnHomepage();
   }
+
+  toggleSearch() {
+    this.isSearchOpen = !this.isSearchOpen;
+  }
+
+  toggleAccessibility() {
+    this.isAccessibilityOpen = !this.isAccessibilityOpen;
+  }
+
 
   private checkIfUserIsOnHomepage() {
     // Safe way to know for sure if the user is on the homepage

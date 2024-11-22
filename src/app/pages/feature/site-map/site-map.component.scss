@@ -1,7 +1,8 @@
 ul {
-  border: solid 1px red;
+  background-color: rgba(black, .1);
+  padding: 1rem;
 
   ul {
-    margin-left: 30px;
+    padding: 1rem;
   }
 }

@@ -4,21 +4,35 @@
   display: block;
 }
 
-article {
-  h3 {
-    margin-top: 1.5rem;
-  }
-  p, ul, ol {
-    margin-top: 0.25rem;
+.page {}
+
+.page__content {
+  padding: 1rem;
+}
+
+// TODO: Standardise this elsewhere
+article .page__content {
+  h2, h3, h4 {
+    line-height: 1.2;
     margin-bottom: 1rem;
+  }
+
+  ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   ul {
     list-style: disc;
-    padding-left: 2rem;
   }
   ol {
     list-style: decimal;
-    padding-left: 2rem;
   }
 }

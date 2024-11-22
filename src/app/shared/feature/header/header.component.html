@@ -1,11 +1,15 @@
 <div class="header">
   <ng-container *ngIf="!isHomepage; else titleWithoutLink">
-    <a routerLink="/" class="header__title">BPCN</a>
+    <a routerLink="/" class="header__title">
+      <!-- <h1>BPCN</h1> -->
+      <h1>Black Prostate Cancer Network</h1>
+    </a>
   </ng-container>
   <ng-template #titleWithoutLink>
-    <h1 class="header__title">BPCN</h1>
+    <!-- <h1 class="header__title">BPCN</h1> -->
+    <h1 class="header__title">Black Prostate Cancer Network</h1>
   </ng-template>
-  <app-search></app-search>
+  <app-user-info></app-user-info>
 </div>
 
 <nav class="menu" [ngClass]="{ 'menu--mobile': isMobile, 'menu--open': isMobile && isNavOpen }">
@@ -32,8 +36,19 @@
     </li>
   </ul>
 
-  <a *ngIf="'accessibility' | featureFlag" class="a11y-link" routerLink="/accessibility" (click)="closeNavOnLinkClick()">
+  <a *ngIf="'search' | featureFlag" class="link link--search" (click)="toggleSearch()">
+    <span class="label">Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </a>
+
+  <a *ngIf="'accessibility' | featureFlag" class="link link-a11y" (click)="toggleAccessibility()">
     <span class="label">Accessibility</span>
     <span class="material-symbols-outlined">accessibility_new</span>
   </a>
 </nav>
+<app-search *ngIf="isSearchOpen" (close)="toggleSearch()"></app-search>
+<app-accessibility *ngIf="isAccessibilityOpen" (close)="toggleAccessibility()"></app-accessibility>
+<!-- TODO: Aria roles ?  -->
+<!-- TODO: No keyboard control over search and a11y links? -->
+<!-- TODO: Need a focus trap in the search fucntionality -->
+ <!-- TODO: Need a focus trap in the a11y functionality -->

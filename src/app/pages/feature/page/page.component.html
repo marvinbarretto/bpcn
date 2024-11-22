@@ -10,7 +10,7 @@
 <div *ngIf="pageStore.loading$$(); else pageContent">Loading...</div>
 
 <ng-template #pageContent>
-  <article *ngIf="pageStore.page$$(); else errorContent">
+  <article class="page" *ngIf="pageStore.page$$(); else errorContent">
 
 
 
@@ -23,47 +23,48 @@
       [cssClass]="'custom-hero-style'"
     ></app-hero>
 
+    <div class="page__content">
 
+      <div class="content" *ngIf="pageStore.page$$()?.content">
+        <ng-container *ngFor="let block of pageStore.page$$()?.content">
 
+          <p *ngIf="block.type === 'paragraph'">
+            <ng-container *ngFor="let child of block.children">
 
-    <ng-container *ngIf="pageStore.page$$()?.content">
-      <ng-container *ngFor="let block of pageStore.page$$()?.content">
+              <ng-container *ngIf="!child.bold && !child.italic && !child.strikethrough">{{ child.text }}</ng-container>
+              <b *ngIf="child.bold">{{ child.text }}</b>
+              <i *ngIf="child.italic">{{ child.text }}</i>
+              <s *ngIf="child.strikethrough">{{ child.text }}</s>
+            </ng-container>
+          </p>
 
-        <p *ngIf="block.type === 'paragraph'">
-          <ng-container *ngFor="let child of block.children">
+          <h2 *ngIf="block.type === 'heading' && block.level === 1">
+            <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
+          </h2>
+          <h3 *ngIf="block.type === 'heading' && block.level === 2">
+            <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
+          </h3>
+          <h4 *ngIf="block.type === 'heading' && block.level === 3">
+            <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
+          </h4>
 
-            <ng-container *ngIf="!child.bold && !child.italic && !child.strikethrough">{{ child.text }}</ng-container>
-            <b *ngIf="child.bold">{{ child.text }}</b>
-            <i *ngIf="child.italic">{{ child.text }}</i>
-            <s *ngIf="child.strikethrough">{{ child.text }}</s>
-          </ng-container>
-        </p>
+          <!-- Render an unordered list -->
+          <ul *ngIf="block.type === 'list' && block.format === 'unordered'">
+            <li *ngFor="let listItem of block.children">
+              <span *ngFor="let child of listItem.children">{{ child.text }}</span>
+            </li>
+          </ul>
 
-        <h2 *ngIf="block.type === 'heading' && block.level === 1">
-          <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
-        </h2>
-        <h3 *ngIf="block.type === 'heading' && block.level === 2">
-          <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
-        </h3>
-        <h4 *ngIf="block.type === 'heading' && block.level === 3">
-          <ng-container *ngFor="let child of block.children">{{ child.text }}</ng-container>
-        </h4>
+            <!-- Render an ordered list -->
+          <ol *ngIf="block.type === 'list' && block.format === 'ordered'">
+            <li *ngFor="let listItem of block.children">
+              <span *ngFor="let child of listItem.children">{{ child.text }}</span>
+            </li>
+          </ol>
+        </ng-container>
+      </div>
+    </div>
 
-        <!-- Render an unordered list -->
-        <ul *ngIf="block.type === 'list' && block.format === 'unordered'">
-          <li *ngFor="let listItem of block.children">
-            <span *ngFor="let child of listItem.children">{{ child.text }}</span>
-          </li>
-        </ul>
-
-          <!-- Render an ordered list -->
-        <ol *ngIf="block.type === 'list' && block.format === 'ordered'">
-          <li *ngFor="let listItem of block.children">
-            <span *ngFor="let child of listItem.children">{{ child.text }}</span>
-          </li>
-        </ol>
-      </ng-container>
-    </ng-container>
   </article>
   <ng-template #errorContent>
     <p>{{ pageStore.error$$() }}</p>

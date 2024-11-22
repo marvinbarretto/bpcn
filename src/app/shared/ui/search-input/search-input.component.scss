@@ -4,16 +4,9 @@
 }
 
 input {
-  background-color: #EEE;
+  border: solid inset;
   padding: 0.5rem;
-  border-radius: .25rem;
-  min-width: 200px;
-  &:focus {
-    background-color: #FFF;
-  }
-  &:hover {
-    background-color: #FFF;
-  }
+
 }
 
 label {

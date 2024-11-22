@@ -9,10 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../shared/ui/pagination/pagination.component';
 import { DateComponent } from '../../../shared/ui/date/date.component';
 import { HeroComponent } from '../../../shared/ui/hero/hero.component';
+import { SearchComponent } from '../../../shared/feature/search/search.component';
 @Component({
   selector: 'app-news-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent, DateComponent, HeroComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent, DateComponent, HeroComponent, SearchComponent],
   templateUrl: './news-list.component.html',
   styleUrl: './news-list.component.scss'
 })
