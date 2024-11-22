@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { UserInfoComponent } from './shared/feature/user-info/user-info.component';
 import { HeaderComponent } from "./shared/feature/header/header.component";
@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 import { PageTitleService } from './shared/data-access/page-title.service';
 import { BackendHealthService } from './shared/data-access/backend-health.service';
 import { CommonModule } from '@angular/common';
+import { UserPreferencesStore } from './shared/data-access/user-preferences.store';
+import { OverlayService } from './shared/data-access/overlay.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,9 @@ export class AppComponent {
     private titleService: PageTitleService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private backendHealthService: BackendHealthService
+    private backendHealthService: BackendHealthService,
+    private userPreferencesStore: UserPreferencesStore,
+    public overlayService: OverlayService
   ) {
     this.isBackendAvailable = this.backendHealthService.isStrapiAvailable$$;
   }

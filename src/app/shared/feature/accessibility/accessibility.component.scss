@@ -1,3 +1,5 @@
+// TODO: Add styles for the accessibility component
+
 :host {
   display: block;
   position: relative;
@@ -6,7 +8,6 @@
 .accessibility {
   background-color: white;
   color: black;
-  position: fixed;
   width: 100%;
   padding: 1rem;
   display: flex;
@@ -22,7 +23,9 @@ app-a11y-letter {
   cursor: pointer;
 }
 
-div {
+
+
+.accessibility div {
   background-color: rgba(black, .1);
   display: flex;
   gap: 1rem;

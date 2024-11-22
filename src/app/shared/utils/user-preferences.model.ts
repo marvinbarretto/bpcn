@@ -5,6 +5,3 @@ export interface UserPreferences {
   lineHeight: number;
   letterSpacing: number;
 }
-
-
-

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, PLATFORM_ID, Inject, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { PageStore } from '../../../pages/data-access/page.store';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -7,6 +7,7 @@ import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
 import { SearchComponent } from '../search/search.component';
 import { UserInfoComponent } from '../user-info/user-info.component';
 import { AccessibilityComponent } from "../accessibility/accessibility.component";
+import { OverlayService, OverlayType } from '../../data-access/overlay.service';
 
 @Component({
   selector: 'app-header',
@@ -23,12 +24,20 @@ export class HeaderComponent implements OnInit {
   isMobile = false;
   readonly DESKTOP_BREAKPOINT = 600 // TODO: Could this be stored somewhere better where more components can access it?
 
+  private router = inject(Router);
+  public overlayService = inject(OverlayService);
+
   constructor(
-    private router: Router,
     public pageStore: PageStore,
     private elementRef: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+    // Q: What exactly is this doing? What is NavigationEnd?
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)).subscribe(() => {
+        this.overlayService.hideOverlay();
+      });
+  }
 
   ngOnInit() {
     this.checkViewportSize();
@@ -36,12 +45,12 @@ export class HeaderComponent implements OnInit {
     this.checkIfUserIsOnHomepage();
   }
 
-  toggleSearch() {
-    this.isSearchOpen = !this.isSearchOpen;
-  }
-
-  toggleAccessibility() {
-    this.isAccessibilityOpen = !this.isAccessibilityOpen;
+  toggleOverlay(overlay: OverlayType) {
+    if ( this.overlayService.isOverlayActive(overlay) ) {
+      this.overlayService.hideOverlay();
+    } else {
+      this.overlayService.showOverlay(overlay);
+    }
   }
 
 

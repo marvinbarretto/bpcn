@@ -6,7 +6,7 @@
 </ng-container>
 
 
-<div class="container">
+<div [attr.aria-hidden]="overlayService.getActiveOverlay() ? 'true' : null" class="container">
   <header>
     <app-header></app-header>
   </header>

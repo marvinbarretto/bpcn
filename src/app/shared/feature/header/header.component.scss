@@ -52,19 +52,22 @@ $DESKTOP-BREAKPOINT: 1024px; // Q: Where should I centralise and get this from?
   }
 }
 
-a {
+a, button {
   display: block;
   text-decoration: underline;
+  text-decoration-thickness: max(1px, .0625rem);
+  text-underline-offset: .3em;
   padding: .5rem;
 }
 
-a:hover {
+a:hover, button:hover {
   background-color: white;
   color: #333;
 }
 
 
 .link {
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,6 +77,8 @@ a:hover {
   text-decoration: none;
   .label {
     text-decoration: underline;
+    text-decoration-thickness: max(1px, .0625rem);
+    text-underline-offset: .3em;
   }
 }
 
@@ -138,5 +143,3 @@ nav ul {
     width: 100%;
   }
 }
-
-

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AccessibilityStore } from './accessibility.store';
+import { OverlayService } from './overlay.service';
 
-describe('AccessibilityService', () => {
-  let service: AccessibilityStore;
+describe('OverlayService', () => {
+  let service: OverlayService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AccessibilityStore);
+    service = TestBed.inject(OverlayService);
   });
 
   it('should be created', () => {

@@ -1,12 +1,12 @@
 import { effect, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { signal } from '@angular/core';
-import { UserPreferences } from '../utils/accessibility.model';
+import { UserPreferences } from '../utils/user-preferences.model';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccessibilityStore {
+export class UserPreferencesStore {
   defaultPreferences: UserPreferences = {
     fontSize: 16,
     bgColor: '#FFFFEE',
@@ -28,6 +28,11 @@ export class AccessibilityStore {
       this.loadFromLocalStorage();
     }
 
+    this.setupEffects();
+  }
+
+
+  private setupEffects() {
     effect(() => {
       this.updateCSSVariable('--font-size', `${this.signals.fontSize()}px`);
     });
@@ -53,6 +58,8 @@ export class AccessibilityStore {
   // Update user preference and persist to localStorage
 
   updatePreference<K extends keyof UserPreferences>(preference: K, value: UserPreferences[K]) {
+    console.log(`Updating preference: ${preference} -> ${value}`);
+
 
     // Always fallback to the default if invalid
     if (value === null || value === undefined) {
@@ -97,6 +104,14 @@ export class AccessibilityStore {
     const textColor = localStorage.getItem('textColor');
     const lineHeight = localStorage.getItem('lineHeight');
     const letterSpacing = localStorage.getItem('letterSpacing');
+
+    console.log(`Rehydrating fontSize from localStorage: ${fontSize}`);
+    console.log(`Rehydrating bgColor from localStorage: ${bgColor}`);
+    console.log(`Rehydrating textColor from localStorage: ${textColor}`);
+    console.log(`Rehydrating lineHeight from localStorage: ${lineHeight}`);
+    console.log(`Rehydrating letterSpacing from localStorage: ${letterSpacing}`);
+
+
 
     // Load valid values from localStorage or fallback to defaults
     this.signals.fontSize.set(fontSize ? Number(fontSize) : this.defaultPreferences.fontSize);
