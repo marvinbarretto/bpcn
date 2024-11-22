@@ -15,3 +15,17 @@
   padding: 1rem;
   background-color: rgba(black, .05);
 }
+
+article .event__content {
+  h2, h3, h4 {
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

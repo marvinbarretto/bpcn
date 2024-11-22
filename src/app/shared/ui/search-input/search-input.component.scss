@@ -1,0 +1,25 @@
+.search-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input {
+  background-color: #EEE;
+  padding: 0.5rem;
+  border-radius: .25rem;
+  min-width: 200px;
+  &:focus {
+    background-color: #FFF;
+  }
+  &:hover {
+    background-color: #FFF;
+  }
+}
+
+label {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 0.25rem;
+}
+

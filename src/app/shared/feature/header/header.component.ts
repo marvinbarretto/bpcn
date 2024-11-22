@@ -4,11 +4,12 @@ import { PageStore } from '../../../pages/data-access/page.store';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs';
 import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule, FeatureFlagPipe],
+  imports: [RouterModule, CommonModule, FeatureFlagPipe, SearchComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

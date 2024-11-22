@@ -39,18 +39,3 @@ h1 {
   // border: dotted 1px red;
   margin: 0 auto;
 }
-
-
-article .event__content {
-  h2, h3, h4 {
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    margin-bottom: 1rem;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}

@@ -10,6 +10,13 @@ export class FeatureFlagPipe implements PipeTransform {
   constructor(private featureFlagService: FeatureFlagService) {}
 
   transform(flag: keyof typeof environment.featureFlags): boolean {
-    return this.featureFlagService.isEnabled(flag);
+    const isEnabled = this.featureFlagService.isEnabled(flag);
+    console.log(`Feature flag '${flag}' is enabled: ${isEnabled}`);
+    console.log('Current environment:', environment);
+
+    return isEnabled;
+
+
+    // return this.featureFlagService.isEnabled(flag);
   }
 }

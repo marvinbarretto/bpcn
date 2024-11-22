@@ -4,7 +4,7 @@
 
 .hero {
   background-color: grey;
-  // background-image: url('/images/hero.webp');
+  background-image: url('/images/hero.webp');
   background-size: cover;
   background-position: top;
   min-height: 300px;
@@ -14,9 +14,14 @@
   align-items: flex-end;
 }
 
-h1 {
-  margin-left: 1rem;
-  margin-bottom: 1rem;
-  background-color: rgba(white, .8);
-  padding: .5rem;
+.sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1rem;
+}
+
+section {
+  background-color: rgba(black, .1);
+  padding: 1rem;
 }
