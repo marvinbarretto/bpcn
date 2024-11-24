@@ -9,8 +9,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "ssr:build": "ng build --configuration=production && ng run bpcn:server",
-    "serve": "node dist/bpcn/server/server.mjs",
-    "install": "npm ci --verbose"
+    "serve": "node dist/bpcn/server/server.mjs"
   },
   "private": true,
   "dependencies": {
