@@ -9,7 +9,8 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "ssr:build": "ng build --configuration=production && ng run bpcn:server",
-    "serve": "node dist/bpcn/server/server.mjs"
+    "serve": "node dist/bpcn/server/server.mjs",
+    "install": "npm ci --verbose"
   },
   "private": true,
   "dependencies": {
@@ -37,7 +38,6 @@
     "redis": "4.7.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "undefined": "0.1.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
