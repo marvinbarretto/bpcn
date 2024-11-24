@@ -10,7 +10,7 @@ export interface SearchResult {
 
 @Component({
     selector: 'app-search-results',
-    imports: [CommonModule, JsonPipe],
+    imports: [CommonModule],
     templateUrl: './search-results.component.html',
     styleUrl: './search-results.component.scss'
 })

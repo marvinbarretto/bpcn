@@ -1,9 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { UserInfoComponent } from './shared/feature/user-info/user-info.component';
 import { HeaderComponent } from "./shared/feature/header/header.component";
 import { FooterComponent } from './shared/feature/footer/footer.component';
-import { Title } from '@angular/platform-browser';
 import { filter, mergeMap } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { PageTitleService } from './shared/data-access/page-title.service';
@@ -14,7 +12,7 @@ import { OverlayService } from './shared/data-access/overlay.service';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterModule, UserInfoComponent, HeaderComponent, FooterComponent, CommonModule],
+    imports: [RouterModule, HeaderComponent, FooterComponent, CommonModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

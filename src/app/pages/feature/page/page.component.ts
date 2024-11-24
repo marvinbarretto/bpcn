@@ -10,7 +10,7 @@ import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 
 @Component({
     selector: 'app-page',
-    imports: [CommonModule, JsonPipe, HeroComponent],
+    imports: [CommonModule, HeroComponent],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss'
 })
