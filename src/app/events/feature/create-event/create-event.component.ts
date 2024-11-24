@@ -7,11 +7,10 @@ import { EventStore } from '../../data-access/event.store';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-create-event',
-  standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
-  templateUrl: './create-event.component.html',
-  styleUrl: './create-event.component.scss'
+    selector: 'app-create-event',
+    imports: [ReactiveFormsModule, FormsModule, CommonModule],
+    templateUrl: './create-event.component.html',
+    styleUrl: './create-event.component.scss'
 })
 export class CreateEventComponent {
 

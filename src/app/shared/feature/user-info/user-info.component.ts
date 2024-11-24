@@ -7,11 +7,10 @@ import { FeatureFlagPipe } from '../../utils/feature-flag.pipe';
 import { BackendHealthService } from '../../data-access/backend-health.service';
 
 @Component({
-  selector: 'app-user-info',
-  standalone: true,
-  imports: [CommonModule, RouterModule, FeatureFlagPipe],
-  templateUrl: './user-info.component.html',
-  styleUrl: './user-info.component.scss'
+    selector: 'app-user-info',
+    imports: [CommonModule, RouterModule, FeatureFlagPipe],
+    templateUrl: './user-info.component.html',
+    styleUrl: './user-info.component.scss'
 })
 export class UserInfoComponent {
   public Roles = Roles;

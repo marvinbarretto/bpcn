@@ -9,11 +9,10 @@ import { FocusTrapFactory, FocusTrap } from '@angular/cdk/a11y';
 import { OverlayService } from '../../data-access/overlay.service';
 
 @Component({
-  selector: 'app-accessibility',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, A11yLetterComponent],
-  templateUrl: './accessibility.component.html',
-  styleUrl: './accessibility.component.scss'
+    selector: 'app-accessibility',
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, A11yLetterComponent],
+    templateUrl: './accessibility.component.html',
+    styleUrl: './accessibility.component.scss'
 })
 export class AccessibilityComponent implements OnDestroy, OnInit {
   accessibilityForm!: FormGroup;

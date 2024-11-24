@@ -1,11 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-search-input',
-  standalone: true,
-  imports: [],
-  templateUrl: './search-input.component.html',
-  styleUrl: './search-input.component.scss',
+    selector: 'app-search-input',
+    imports: [],
+    templateUrl: './search-input.component.html',
+    styleUrl: './search-input.component.scss'
 })
 export class SearchInputComponent {
   @Input() query: string = '';

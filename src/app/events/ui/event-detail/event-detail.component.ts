@@ -8,11 +8,10 @@ import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-event-detail',
-  standalone: true,
-  imports: [CommonModule, HeroComponent],
-  templateUrl: './event-detail.component.html',
-  styleUrl: './event-detail.component.scss'
+    selector: 'app-event-detail',
+    imports: [CommonModule, HeroComponent],
+    templateUrl: './event-detail.component.html',
+    styleUrl: './event-detail.component.scss'
 })
 export class EventDetailComponent {
 

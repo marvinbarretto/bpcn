@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-hero',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-hero',
+    imports: [CommonModule],
+    template: `
   <div
     class="hero"
     [ngClass]="cssClass"
@@ -21,7 +20,7 @@ import { Component, Input } from '@angular/core';
     </div>
   </div>
 `,
-  styleUrl: './hero.component.scss'
+    styleUrl: './hero.component.scss'
 })
 export class HeroComponent {
   @Input() title: string = '';

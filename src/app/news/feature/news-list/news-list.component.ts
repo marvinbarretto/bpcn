@@ -11,11 +11,10 @@ import { DateComponent } from '../../../shared/ui/date/date.component';
 import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 import { SearchComponent } from '../../../shared/feature/search/search.component';
 @Component({
-  selector: 'app-news-list',
-  standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent, DateComponent, HeroComponent, SearchComponent],
-  templateUrl: './news-list.component.html',
-  styleUrl: './news-list.component.scss'
+    selector: 'app-news-list',
+    imports: [CommonModule, FormsModule, PaginationComponent, DateComponent, HeroComponent, SearchComponent],
+    templateUrl: './news-list.component.html',
+    styleUrl: './news-list.component.scss'
 })
 export class NewsListComponent {
   news: NewsSnippet[] = [];

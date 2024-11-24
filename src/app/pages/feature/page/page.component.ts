@@ -9,11 +9,10 @@ import { Subscription } from 'rxjs';
 import { HeroComponent } from '../../../shared/ui/hero/hero.component';
 
 @Component({
-  selector: 'app-page',
-  standalone: true,
-  imports: [CommonModule, JsonPipe, HeroComponent],
-  templateUrl: './page.component.html',
-  styleUrl: './page.component.scss'
+    selector: 'app-page',
+    imports: [CommonModule, JsonPipe, HeroComponent],
+    templateUrl: './page.component.html',
+    styleUrl: './page.component.scss'
 })
 export class PageComponent implements OnInit, OnDestroy {
   private pageSubscription: Subscription = new Subscription();

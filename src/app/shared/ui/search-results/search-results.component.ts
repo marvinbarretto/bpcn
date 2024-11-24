@@ -9,11 +9,10 @@ export interface SearchResult {
 }
 
 @Component({
-  selector: 'app-search-results',
-  standalone: true,
-  imports: [CommonModule, JsonPipe],
-  templateUrl: './search-results.component.html',
-  styleUrl: './search-results.component.scss'
+    selector: 'app-search-results',
+    imports: [CommonModule, JsonPipe],
+    templateUrl: './search-results.component.html',
+    styleUrl: './search-results.component.scss'
 })
 export class SearchResultsComponent {
   private sanitizer = inject(DomSanitizer);

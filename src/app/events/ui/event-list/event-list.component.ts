@@ -5,11 +5,10 @@ import { RouterModule } from '@angular/router';
 import { DateComponent } from '../../../shared/ui/date/date.component';
 
 @Component({
-  selector: 'app-event-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule, DateComponent],
-  templateUrl: './event-list.component.html',
-  styleUrl: './event-list.component.scss'
+    selector: 'app-event-list',
+    imports: [CommonModule, RouterModule, DateComponent],
+    templateUrl: './event-list.component.html',
+    styleUrl: './event-list.component.scss'
 })
 export class EventListComponent {
   @Input() events: IEvent[] = [];

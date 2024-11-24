@@ -13,11 +13,10 @@ import { UserPreferencesStore } from './shared/data-access/user-preferences.stor
 import { OverlayService } from './shared/data-access/overlay.service';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterModule, UserInfoComponent, HeaderComponent, FooterComponent, CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [RouterModule, UserInfoComponent, HeaderComponent, FooterComponent, CommonModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
   isBackendAvailable!: () => boolean;

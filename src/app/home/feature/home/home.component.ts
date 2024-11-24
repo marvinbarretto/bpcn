@@ -7,11 +7,10 @@ import { FeatureFlagPipe } from '../../../shared/utils/feature-flag.pipe';
 import { SearchComponent } from '../../../shared/feature/search/search.component';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [RouterModule, CommonModule, AccessibilityComponent, FeatureFlagPipe, SearchComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    imports: [RouterModule, CommonModule, AccessibilityComponent, FeatureFlagPipe, SearchComponent],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   authStore = inject(AuthStore);

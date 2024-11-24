@@ -2,11 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 @Component({
-  selector: 'app-pagination',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
-  templateUrl: './pagination.component.html',
-  styleUrl: './pagination.component.scss'
+    selector: 'app-pagination',
+    imports: [FormsModule, CommonModule],
+    templateUrl: './pagination.component.html',
+    styleUrl: './pagination.component.scss'
 })
 export class PaginationComponent {
   @Input() currentPage: number = 1;
