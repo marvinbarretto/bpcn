@@ -1,0 +1,27 @@
+# Exclude node_modules (dependencies will be installed fresh in the container)
+node_modules
+
+# Exclude Angular build output
+dist
+
+# Exclude version control files
+.git
+.gitignore
+
+# Exclude Docker's own build artifacts, if any
+Dockerfile
+.dockerignore
+
+# Exclude local environment files
+.env
+.env.*
+
+# Exclude editor and IDE-specific files
+*.swp
+*.swo
+.idea
+.vscode
+
+# Exclude OS-specific files
+.DS_Store
+Thumbs.db
